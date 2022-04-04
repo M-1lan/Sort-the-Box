@@ -5,9 +5,54 @@ pygame.init()
 
 pygame.display.set_mode((800, 600))
 pygame.display.set_caption("Petit Jardin")
-			
+
 running = True
 infos_grille = dict()
+
+directions = ["N", "E", "S", "W"]
+
+
+class Case:
+	def __init__(self, pos_x, pos_y, content):
+		self.pos_x = pos_x
+		self.pos_y = pos_y
+		self.content = content
+
+
+class Grille:
+	def __init__(self, dim_x, dim_y):
+		self.dim_x = dim_x - 1
+		self.dim_y = dim_y - 1
+		self.plateau = list()
+
+		for line in dim_y:
+			self.plateau.append(list())
+			for column in dim_x:
+				self.plateau[line].append(Case(column, line))
+
+
+class Personnage:
+	def __init__(self, pos_x, pos_y):
+		self.pos_x = pos_x
+		self.pos_y = pos_y
+	
+	def deplacer(self, direction, grille):
+		if direction in directions:
+			if direction == "N" and self.pos_y - 1 >= 0:
+				self.pos_y -= 1
+
+			elif direction == "E" and self.pos_x + 1 <= grille.dim_x:
+				self.pos_x += 1
+
+			elif direction == "S" and self.pos_y + 1 <= grille.dim_y:
+				self.pos_y += 1
+
+			elif direction == "W" and self.pos_x - 1 >= 0:
+				self.pos_x -= 1
+			
+			move_status = True
+		else:
+			move_status = False
 
 
 def generer_grille(dim_x, dim_y):
