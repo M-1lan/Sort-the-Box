@@ -1,6 +1,6 @@
 import pygame
 
-directions = ["N", "E", "S", "O"]
+directions = {"N": (0, -1), "E": (1, 0), "S": (0, 1), "O": (-1, 0)}
 
 class Personnage(pygame.sprite.Sprite):
 	def __init__(self, pos_x, pos_y, name, grille):
@@ -48,7 +48,13 @@ class Personnage(pygame.sprite.Sprite):
 		else:
 			raise ValueError("Impossible de déplacer {} vers {}.".format(self.name, direction))
 	
-	def interagir(self, pos_x, pos_y):
+	def interagir(self):
+		pos_x_interact = self.pos_x + directions[self.dir][0]
+		pos_y_interact = self.pos_y + directions[self.dir][1]
+		print("I :", pos_x_interact, pos_y_interact)
+		self.interagir_avec_coordonnees(pos_x_interact, pos_y_interact)
+
+	def interagir_avec_coordonnees(self, pos_x, pos_y):
 		dist_x = abs(pos_x - self.pos_x)
 		dist_y = abs(pos_y - self.pos_y)
 		if self.grille.plateau[pos_y][pos_x].get_upper_element().allow_interact and ((dist_x == 1 and dist_y == 0) or (dist_x == 0 and dist_y == 1)):

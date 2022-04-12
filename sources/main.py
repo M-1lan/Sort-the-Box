@@ -71,6 +71,13 @@ while execution:
                     print(*liste_initiales(), sep="\n")
                 except ValueError:
                     pass
+            
+            elif event.key == pygame.K_i:
+                try:
+                    martin.interagir()
+                except ValueError as err:
+                    print(err)
+                
     fenetre.fill((255, 255, 255))
     myfont = pygame.font.SysFont("Arial", 20)
     
