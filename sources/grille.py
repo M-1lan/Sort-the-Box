@@ -1,16 +1,23 @@
 from objets import ObjetVide
+import pygame
 
 class Case:
 	def __init__(self, pos_x:int, pos_y:int, is_filled:bool, content:object=ObjetVide())->object:
 		self.pos_x = pos_x
 		self.pos_y = pos_y
+		self.content = []
 		if not(is_filled):
-			self.content = ObjetVide()
+			self.content.append(ObjetVide())
 		else:
-			self.content = content
+			self.content.append(content)
 	
 	def change_content(self, content:object):
-		self.content = content
+		self.content.append(content)
+
+	def get_upper_element(self):
+		for element in self.content:
+			upper_element = element
+		return upper_element
 
 
 class Grille:
