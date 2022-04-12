@@ -41,8 +41,10 @@ class Personnage(pygame.sprite.Sprite):
 			self.move_status = False
 		
 		if self.move_status:
-			self.grille.change_case(self.last_x, self.last_y, None) # TO DO : Ne pas supprimer tout le contenu de la case
-			self.grille.change_case(self.pos_x, self.pos_y, self)
+			# self.grille.change_case(self.last_x, self.last_y, None) # TO DO : Ne pas supprimer tout le contenu de la case
+			self.grille.plateau[self.last_y][self.last_x].remove_last_content(self)
+			# self.grille.change_case(self.pos_x, self.pos_y, self)
+			self.grille.plateau[self.pos_y][self.pos_x].add_content(self)
 		else:
 			raise ValueError("Impossible de déplacer {} vers {}.".format(self.name, direction))
 	

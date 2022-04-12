@@ -26,17 +26,13 @@ def liste_initiales():
     for line in plateau.plateau:
         d_line = []
         for column in line:
-            for element in column.content:
-                upper_element = element
-            d_line.append(str(upper_element)[1])
+            d_line.append(str(column.get_upper_element())[1])
 
         liste.append(d_line)
     
     return liste
 
 
-
-# l = [[str(column.content[-1]).split(".")[1].split(" ")[0][0] for column in line] for line in plateau.plateau]
 print(*liste_initiales(), sep="\n")
 
 execution = True
@@ -50,7 +46,6 @@ while execution:
             if event.key == pygame.K_LEFT:
                 try:
                     martin.deplacer("O")
-                    # l = [[str(column.content[-1]).split(".")[1].split(" ")[0][0] for column in line] for line in plateau.plateau]
                     print(*liste_initiales(), sep="\n")
 
                 except ValueError:
@@ -59,7 +54,6 @@ while execution:
             elif event.key == pygame.K_RIGHT:
                 try:
                     martin.deplacer("E")
-                    # l = [[str(column.content[-1]).split(".")[1].split(" ")[0][0] for column in line] for line in plateau.plateau]
                     print(*liste_initiales(), sep="\n")
                 except ValueError:
                     pass
@@ -67,7 +61,6 @@ while execution:
             elif event.key == pygame.K_UP:
                 try:
                     martin.deplacer("N")
-                    # l = [[str(column.content[-1]).split(".")[1].split(" ")[0][0] for column in line] for line in plateau.plateau]
                     print(*liste_initiales(), sep="\n")
                 except ValueError:
                     pass
@@ -75,7 +68,6 @@ while execution:
             elif event.key == pygame.K_DOWN:
                 try:
                     martin.deplacer("S")
-                    # l = [[str(column.content[-1]).split(".")[1].split(" ")[0][0] for column in line] for line in plateau.plateau]
                     print(*liste_initiales(), sep="\n")
                 except ValueError:
                     pass
