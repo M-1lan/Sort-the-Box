@@ -40,7 +40,6 @@ class Lit(Interactable):
         self.proprietaire = proprietaire
         self.allow_others = allow_others
 
-    
 
     def interaction(self, dormeur):
         if (dormeur == self.proprietaire or \
