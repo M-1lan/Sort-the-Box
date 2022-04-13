@@ -44,6 +44,7 @@ class Personnage(pygame.sprite.Sprite):
         print("I :", pos_x_interact, pos_y_interact)
         self.interagir_avec_coordonnees(pos_x_interact, pos_y_interact)
 
+
     def interagir_avec_coordonnees(self, pos_x, pos_y):
         dist_x = abs(pos_x - self.pos_x)
         dist_y = abs(pos_y - self.pos_y)

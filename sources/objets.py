@@ -17,6 +17,7 @@ class Interactable(Objet):
         super().__init__(True, False)
         self.name = name
 
+
     def interaction(self, personnage):
         print("{} interagit avec moi.".format(personnage))
 
