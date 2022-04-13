@@ -1,6 +1,6 @@
 import pygame
 
-from objets import Objet, ObjetVide, Interactable, Bloquant, NonBloquant
+from objets import Objet, ObjetVide, Interactable, Bloquant, NonBloquant, Lit
 from grille import Grille, Case
 from personnage import Personnage
 
@@ -16,10 +16,10 @@ pygame.display.set_caption("Petit Jardin")
 plateau = Grille(10, 10)
 martin = Personnage(0, 0, "Martin", plateau)
 
-plateau.change_case(0, 1, Interactable("Meuble"))
-plateau.change_case(1, 1, Bloquant())
-plateau.change_case(1, 1, NonBloquant())
-
+plateau.change_case(0, 1, Interactable(0, 1, "Meuble"))
+plateau.change_case(1, 2, Bloquant(1, 1))
+plateau.change_case(1, 1, NonBloquant(1, 1))
+plateau.change_case(7, 8, Lit(7, 8, martin))
 
 def liste_initiales():
     liste = []
