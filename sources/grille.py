@@ -2,19 +2,18 @@ from objets import ObjetVide
 import pygame
 
 class Case:
-    def __init__(self, pos_x:int, pos_y:int, is_filled:bool, content:object=ObjetVide())->object:
-        self.pos_x = pos_x
-        self.pos_y = pos_y
+    def __init__(self, pos_x:int, pos_y:int, is_filled:bool, content:object=None)->object:
+        self.pos_x, self.pos_y  = pos_x, pos_y
         self.content = []
         if not(is_filled):
-            self.content.append(ObjetVide())
+            self.content.append(ObjetVide(self.pos_x, self.pos_y))
         else:
-            self.content.append(content)
+            self.content.append(content if content != None else ObjetVide(self.pos_x, self.pos_y))
 
     
     def check_and_fill(self):
         if len(self.content) == 0:
-            self.set_content(ObjetVide())
+            self.set_content(ObjetVide(self.pos_x, self.pos_y))
 
 
     def add_content(self, content:object):
@@ -78,11 +77,11 @@ class Grille:
     def change_case(self, pos_x, pos_y, content, do_replace=False):
         if do_replace:
             if content == None:
-                self.plateau[pos_y][pos_x].set_content(ObjetVide())
+                self.plateau[pos_y][pos_x].set_content(ObjetVide(self.pos_x, self.pos_y))
             else:
                 self.plateau[pos_y][pos_x].set_content(content)
         else:
             if content == None:
-                self.plateau[pos_y][pos_x].set_content(ObjetVide())
+                self.plateau[pos_y][pos_x].set_content(ObjetVide(self.pos_x, self.pos_y))
             else:
                 self.plateau[pos_y][pos_x].add_content(content)
