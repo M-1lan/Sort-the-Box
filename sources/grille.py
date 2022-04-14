@@ -60,11 +60,11 @@ class Case:
     
 
 class Grille:
-    def __init__(self, dim_x, dim_y, size_case):
+    def __init__(self, dim_x, dim_y, case_size):
         self.dim_x, self.dim_y = dim_x, dim_y
         self.max_x, self.max_y = dim_x - 1, dim_y - 1
 
-        self.size_case = size_case
+        self.case_size = case_size
 
         self.plateau = list()
 

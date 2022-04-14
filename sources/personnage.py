@@ -8,12 +8,48 @@ class Personnage(pygame.sprite.Sprite):
         super().__init__()
         self.pos_x = self.last_x = pos_x
         self.pos_y = self.last_y = pos_y
+
+        self.real_x, self.real_y = self.pos_x * 20, self.pos_y * 20
         self.dir = "N"
+
+        self.speed = 20
+
         self.name = name
         self.grille = grille
         self.grille.change_case(self.pos_x, self.pos_y, self)
     
 
+    def deplacer_pixels(self, direction):
+        print("deplacer_pixels")
+        if direction in directions:
+            print("direction acceptée")
+            self.dir = direction
+
+            desired_pos_x = self.pos_x + directions[direction][0]
+            desired_pos_y = self.pos_y + directions[direction][1]
+
+            desired_real_x = self.real_x + (directions[direction][0] * self.speed)
+            desired_real_y = self.real_y + (directions[direction][1] * self.speed)
+
+            if (desired_real_x >= 0 and \
+                    desired_real_x <= self.grille.max_x * self.grille.case_size and \
+                    desired_real_y >= 0 and \
+                    desired_real_y <= self.grille.max_y * self.grille.case_size and \
+                    self.grille.plateau[desired_pos_y][desired_pos_x].get_upper_element().allow_overlay):
+                print("I'm OK to move to ({}, {}) / ({}, {}) from ({}, {}) / ({}, {})".format(
+                    desired_pos_x, desired_pos_y,
+                    desired_real_x, desired_real_y,
+                    self.pos_x, self.pos_y,
+                    self.real_x, self.real_y
+                ))
+            else:
+                print("I'm NOT OK to move to ({}, {}) / ({}, {}) from ({}, {}) / ({}, {})".format(
+                    desired_pos_x, desired_pos_y,
+                    desired_real_x, desired_real_y,
+                    self.pos_x, self.pos_y,
+                    self.real_x, self.real_y
+                ))
+                self.real_x, self.real_y = desired_real_x, desired_real_y
     def deplacer(self, direction):
         if direction in directions:
             # Si la direction demandée est une direction valide
