@@ -8,13 +8,14 @@ pygame.display.set_caption("Petit Jardin")
 
 txt_font = pygame.font.Font(None ,30)
 
-image_fond = pygame.image.load("images/prairie.jpg")
+image_fond = pygame.image.load("sources/images/prairie.jpg")
 image_fond = pygame.transform.scale(image_fond, (800, 600))
 image_fond.convert()
 
-image_1 = pygame.image.load("images/logo.png")
+image_1 = pygame.image.load("sources/images/logo.png")
 image_1 = pygame.transform.scale(image_1, (700, 400))
 image_1.convert()
+
 
 width = 600
 height = 550
@@ -38,6 +39,7 @@ def page_jeu():
                 sys.exit()
 
         fenetre.fill((255, 255, 255))
+                   
         pygame.display.flip()
 
 
@@ -68,4 +70,3 @@ def page_menu():
         pygame.display.update()
 
 page_menu()
-

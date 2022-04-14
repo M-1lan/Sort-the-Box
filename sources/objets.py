@@ -1,22 +1,28 @@
 import pygame
 
+sol = pygame.image.load("sources/images/sol.jpg") 
+mur = pygame.image.load("sources/images/mur.jpg")
+element_interactif = pygame.image.load("sources/images/element_interactif.jpg") 
+
 class Objet(pygame.sprite.Sprite):
-    def __init__(self, pos_x, pos_y, allow_interact:bool, allow_overlay:bool)->object:
+    def __init__(self, pos_x, pos_y, fenetre, allow_interact:bool, allow_overlay:bool)->object:
         super().__init__()
         self.pos_x = pos_x
         self.pos_y = pos_y
+        self.fenetre = fenetre
         self.allow_interact = allow_interact
         self.allow_overlay = allow_overlay
 
 
 class ObjetVide(Objet):
-    def __init__(self, pos_x, pos_y):
-        super().__init__(pos_x, pos_y, False, True)
+    def __init__(self, pos_x, pos_y, fenetre):
+        super().__init__(pos_x, pos_y, fenetre, False, True)
+        self.fenetre.blit(sol, 0, 0)
 
 
 class Interactable(Objet):
-    def __init__(self, pos_x, pos_y, name):
-        super().__init__(pos_x, pos_y, True, False)
+    def __init__(self, pos_x, pos_y, fenetre, name):
+        super().__init__(pos_x, pos_y, fenetre, True, False)
         self.name = name
 
 
@@ -25,18 +31,18 @@ class Interactable(Objet):
 
 
 class Bloquant(Objet):
-    def __init__(self, pos_x, pos_y):
-        super().__init__(pos_x, pos_y, False, False)
+    def __init__(self, pos_x, pos_y, fenetre):
+        super().__init__(pos_x, pos_y, fenetre, False, False)
 
 
 class NonBloquant(Objet):
-    def __init__(self, pos_x, pos_y):
-        super().__init__(pos_x, pos_y, False, True)
+    def __init__(self, pos_x, pos_y, fenetre):
+        super().__init__(pos_x, pos_y, fenetre, False, True)
 
 
 class Lit(Interactable):
-    def __init__(self, pos_x, pos_y, proprietaire:object, name:str="Lit", allow_others:bool=False):
-        super().__init__(pos_x, pos_y, name)
+    def __init__(self, pos_x, pos_y, fenetre, proprietaire:object, name:str="Lit", allow_others:bool=False):
+        super().__init__(pos_x, pos_y, fenetre, name)
         self.proprietaire = proprietaire
         self.allow_others = allow_others
 

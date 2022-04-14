@@ -1,9 +1,10 @@
+from pip import main
 import pygame
 
 from objets import Objet, ObjetVide, Interactable, Bloquant, NonBloquant, Lit
 from grille import Grille, Case
 from personnage import Personnage
-
+       
 pygame.init()
 pygame.font.init()
 
@@ -12,14 +13,19 @@ pygame.font.init()
 
 fenetre = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("Petit Jardin")
+pygame.display.update()
 
+<<<<<<< Updated upstream
 plateau = Grille(10, 10, 20)
+=======
+plateau = Grille(10, 10, fenetre)
+>>>>>>> Stashed changes
 martin = Personnage(0, 0, "Martin", plateau)
 
-plateau.change_case(0, 1, Interactable(0, 1, "Meuble"))
-plateau.change_case(1, 2, Bloquant(1, 1))
-plateau.change_case(1, 1, NonBloquant(1, 1))
-plateau.change_case(7, 8, Lit(7, 8, martin))
+plateau.change_case(0, 1, Interactable(0, 1, fenetre, "Meuble"))
+plateau.change_case(1, 2, Bloquant(1, 1, fenetre))
+plateau.change_case(1, 1, NonBloquant(1, 1, fenetre))
+plateau.change_case(7, 8, Lit(7, 8, fenetre, martin))
 
 def liste_initiales():
     liste = []

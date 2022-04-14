@@ -2,18 +2,19 @@ from objets import ObjetVide
 import pygame
 
 class Case:
-    def __init__(self, pos_x:int, pos_y:int, is_filled:bool, content:object=None)->object:
+    def __init__(self, pos_x:int, pos_y:int, fenetre, is_filled:bool, content:object=None)->object:
         self.pos_x, self.pos_y  = pos_x, pos_y
+        self.fenetre = fenetre
         self.content = []
         if not(is_filled):
-            self.content.append(ObjetVide(self.pos_x, self.pos_y))
+            self.content.append(ObjetVide(self.pos_x, self.pos_y, self.fenetre))
         else:
             self.content.append(content if content != None else ObjetVide(self.pos_x, self.pos_y))
 
     
     def check_and_fill(self):
         if len(self.content) == 0:
-            self.set_content(ObjetVide(self.pos_x, self.pos_y))
+            self.set_content(ObjetVide(self.pos_x, self.pos_y, self.fenetre))
 
 
     def add_content(self, content:object):
@@ -60,28 +61,38 @@ class Case:
     
 
 class Grille:
+<<<<<<< Updated upstream
     def __init__(self, dim_x, dim_y, case_size):
         self.dim_x, self.dim_y = dim_x, dim_y
         self.max_x, self.max_y = dim_x - 1, dim_y - 1
 
         self.case_size = case_size
 
+=======
+    def __init__(self, dim_x, dim_y, fenetre):
+        self.dim_x = dim_x
+        self.max_x = dim_x - 1
+
+        self.dim_y = dim_y
+        self.max_y = dim_y - 1
+        self.fenetre = fenetre
+>>>>>>> Stashed changes
         self.plateau = list()
 
         for line in range(dim_y):
             self.plateau.append(list())
             for column in range(dim_x):
-                self.plateau[line].append(Case(column, line, False))
+                self.plateau[line].append(Case(column, line, self.fenetre, False))
 
 
     def change_case(self, pos_x, pos_y, content, do_replace=False):
         if do_replace:
             if content == None:
-                self.plateau[pos_y][pos_x].set_content(ObjetVide(self.pos_x, self.pos_y))
+                self.plateau[pos_y][pos_x].set_content(ObjetVide(self.pos_x, self.pos_y, self.fenetre))
             else:
                 self.plateau[pos_y][pos_x].set_content(content)
         else:
             if content == None:
-                self.plateau[pos_y][pos_x].set_content(ObjetVide(self.pos_x, self.pos_y))
+                self.plateau[pos_y][pos_x].set_content(ObjetVide(self.pos_x, self.pos_y, self.fenetre))
             else:
                 self.plateau[pos_y][pos_x].add_content(content)
