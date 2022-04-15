@@ -2,22 +2,27 @@ import pygame
 
 directions = {"N": (0, -1), "E": (1, 0), "S": (0, 1), "O": (-1, 0)}
 
-
 class Personnage(pygame.sprite.Sprite):
-    def __init__(self, pos_x, pos_y, name, grille):
+    def __init__(self, pos_x, pos_y, name, grille, fenetre):
         super().__init__()
         self.pos_x = self.last_x = pos_x
         self.pos_y = self.last_y = pos_y
 
         self.real_x, self.real_y = self.pos_x * 20, self.pos_y * 20
         self.dir = "N"
-
         self.speed = 20
+
+        self.fenetre = fenetre
+
+        self.image = pygame.image.load("images/martine.jpg")
 
         self.name = name
         self.grille = grille
         self.grille.change_case(self.pos_x, self.pos_y, self)
-    
+
+    def placer(self):
+        self.fenetre.blit(self.image, (self.pos_x * 16, self.pos_y*16), (0, 0, 16, 16))
+
 
     def deplacer_pixels(self, direction):
         print("deplacer_pixels")
@@ -72,6 +77,7 @@ class Personnage(pygame.sprite.Sprite):
 
             else:
                 raise ValueError("Impossible de déplacer {} vers {}.".format(self.name, direction))
+        self.placer
     
 
     def interagir(self):
@@ -87,3 +93,4 @@ class Personnage(pygame.sprite.Sprite):
             self.grille.plateau[pos_y][pos_x].get_upper_element().interaction(self)
         else:
             raise ValueError("Impossible de faire interagir {} avec l'élément de coordonnées ({}, {})".format(self.name, pos_x, pos_y))
+        self.placer

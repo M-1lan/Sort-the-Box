@@ -58,17 +58,12 @@ class Case:
 
     def get_upper_element(self)->object:
         return self.content[-1]
-    
+
+    def placer(self):
+        for content in self.content:
+            content.placer()
 
 class Grille:
-<<<<<<< Updated upstream
-    def __init__(self, dim_x, dim_y, case_size):
-        self.dim_x, self.dim_y = dim_x, dim_y
-        self.max_x, self.max_y = dim_x - 1, dim_y - 1
-
-        self.case_size = case_size
-
-=======
     def __init__(self, dim_x, dim_y, fenetre):
         self.dim_x = dim_x
         self.max_x = dim_x - 1
@@ -76,7 +71,6 @@ class Grille:
         self.dim_y = dim_y
         self.max_y = dim_y - 1
         self.fenetre = fenetre
->>>>>>> Stashed changes
         self.plateau = list()
 
         for line in range(dim_y):
@@ -96,3 +90,8 @@ class Grille:
                 self.plateau[pos_y][pos_x].set_content(ObjetVide(self.pos_x, self.pos_y, self.fenetre))
             else:
                 self.plateau[pos_y][pos_x].add_content(content)
+
+    def tout_placer(self):
+        for y in self.plateau:
+            for case in y:
+                case.placer()
