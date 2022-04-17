@@ -24,6 +24,7 @@ class ObjetVide(Objet):
         self.image = sol
         super().placer()
 
+
 class Interactable(Objet):
     def __init__(self, pos_x, pos_y, fenetre, name):
         super().__init__(pos_x, pos_y, fenetre, True, False)
@@ -48,12 +49,12 @@ class NonBloquant(Objet):
         self.image = tapis
         super().placer()
 
-
 class Lit(Interactable):
     def __init__(self, pos_x, pos_y, fenetre, proprietaire:object, name:str="Lit", allow_others:bool=False):
         super().__init__(pos_x, pos_y, fenetre, name)
         self.proprietaire = proprietaire
         self.allow_others = allow_others
+        super().placer()
 
 
     def interaction(self, dormeur):

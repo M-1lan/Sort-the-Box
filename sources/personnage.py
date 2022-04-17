@@ -20,6 +20,7 @@ class Personnage(pygame.sprite.Sprite):
         self.grille = grille
         self.grille.change_case(self.pos_x, self.pos_y, self)
 
+
     def placer(self):
         self.fenetre.blit(self.image, (self.pos_x * 16, self.pos_y*16), (0, 0, 16, 16))
 
@@ -77,7 +78,7 @@ class Personnage(pygame.sprite.Sprite):
 
             else:
                 raise ValueError("Impossible de déplacer {} vers {}.".format(self.name, direction))
-        self.placer
+        self.placer()
     
 
     def interagir(self):
@@ -93,4 +94,4 @@ class Personnage(pygame.sprite.Sprite):
             self.grille.plateau[pos_y][pos_x].get_upper_element().interaction(self)
         else:
             raise ValueError("Impossible de faire interagir {} avec l'élément de coordonnées ({}, {})".format(self.name, pos_x, pos_y))
-        self.placer
+        self.placer()

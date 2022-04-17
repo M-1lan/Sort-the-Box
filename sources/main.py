@@ -1,13 +1,11 @@
-from pip import main
 import pygame
 
 from objets import Objet, ObjetVide, Interactable, Bloquant, NonBloquant, Lit
 from grille import Grille, Case
 from personnage import Personnage
-       
+
 pygame.init()
 pygame.font.init()
-
 
 ## Création de la fenêtre de jeu 
 
@@ -19,7 +17,7 @@ plateau = Grille(10, 10, fenetre)
 martin = Personnage(0, 0, "Martin", plateau, fenetre)
 
 plateau.change_case(0, 1, Interactable(0, 1, fenetre, "Meuble"))
-plateau.change_case(1, 2, Bloquant(1, 1, fenetre))
+plateau.change_case(1, 2, Bloquant(1, 2, fenetre))
 plateau.change_case(1, 1, NonBloquant(1, 1, fenetre))
 plateau.change_case(7, 8, Lit(7, 8, fenetre, martin))
 pygame.display.update()
@@ -42,7 +40,6 @@ print(*liste_initiales(), sep="\n")
 execution = True
 
 while execution:
-    plateau.tout_placer()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             execution = False
@@ -84,15 +81,9 @@ while execution:
                     print(err)
                 
     fenetre.fill((255, 255, 255))
+    plateau.tout_placer()
     myfont = pygame.font.SysFont("Arial", 20)
-    
-    # for i, el in enumerate(liste_initiales()):
-    #     textsurface = myfont.render(str(el), False, (0, 0, 0))
-    #     rect = textsurface.get_rect()
 
-    #     rect.center = (400, 200+20*i)
-    #     fenetre.blit(textsurface, rect)
-    #     pygame.display.update(rect)
-    pygame.display.update()
+    pygame.display.flip()
     
 pygame.quit()
