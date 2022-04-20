@@ -2,14 +2,15 @@ from objets import ObjetVide
 import pygame
 
 class Case:
-    def __init__(self, pos_x:int, pos_y:int, fenetre, is_filled:bool, content:object=None)->object:
+    def __init__(self, pos_x:int, pos_y:int, fenetre, grille, is_filled:bool, content:object=None)->object:
         self.pos_x, self.pos_y  = pos_x, pos_y
         self.fenetre = fenetre
         self.content = []
+        self.grille = grille
         if not(is_filled):
-            self.content.append(ObjetVide(self.pos_x, self.pos_y, self.fenetre))
+            self.content.append(ObjetVide(self.pos_x, self.pos_y, self.fenetre, self.grille))
         else:
-            self.content.append(content if content != None else ObjetVide(self.pos_x, self.pos_y))
+            self.content.append(content if content != None else ObjetVide(self.pos_x, self.pos_y, self.grille))
 
     
     def check_and_fill(self):
@@ -64,19 +65,21 @@ class Case:
             content.placer()
 
 class Grille:
-    def __init__(self, dim_x, dim_y, fenetre):
+    def __init__(self, dim_x, dim_y, fenetre, dim_case):
         self.dim_x = dim_x
         self.max_x = dim_x - 1
 
         self.dim_y = dim_y
         self.max_y = dim_y - 1
+
+        self.dim_case = dim_case
         self.fenetre = fenetre
         self.plateau = list()
 
         for line in range(dim_y):
             self.plateau.append(list())
             for column in range(dim_x):
-                self.plateau[line].append(Case(column, line, self.fenetre, False))
+                self.plateau[line].append(Case(column, line, self.fenetre, self, False))
 
 
     def change_case(self, pos_x, pos_y, content, do_replace=False):
@@ -94,4 +97,4 @@ class Grille:
     def tout_placer(self):
         for y in self.plateau:
             for case in y:
-                case.placer()
+                case.placer() 

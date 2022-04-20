@@ -11,25 +11,33 @@ class Objet(pygame.sprite.Sprite):
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.fenetre = fenetre
+        self.window_x, self.window_y = self.fenetre.get_size()
         self.allow_interact = allow_interact
         self.allow_overlay = allow_overlay
+        
 
     def placer(self):
-        self.fenetre.blit(self.image, (self.pos_x*16, self.pos_y*16))
+        self.fenetre.blit(self.image, ( \
+            self.pos_x * self.grille.dim_case + (self.window_x / 2 - self.grille.dim_case * self.grille.dim_x / 2 ), \
+            self.pos_y * self.grille.dim_case + (self.window_y / 2 - self.grille.dim_case * self.grille.dim_y / 2)
+            )
+        )
 
 
 class ObjetVide(Objet):
-    def __init__(self, pos_x, pos_y, fenetre):
+    def __init__(self, pos_x, pos_y, fenetre, grille):
         super().__init__(pos_x, pos_y, fenetre, False, True)
         self.image = sol
+        self.grille = grille
         super().placer()
 
 
 class Interactable(Objet):
-    def __init__(self, pos_x, pos_y, fenetre, name):
+    def __init__(self, pos_x, pos_y, fenetre, name, grille):
         super().__init__(pos_x, pos_y, fenetre, True, False)
         self.name = name
         self.image = element_interactif
+        self.grille = grille
         super().placer()
 
     def interaction(self, personnage):
@@ -37,21 +45,23 @@ class Interactable(Objet):
 
 
 class Bloquant(Objet):
-    def __init__(self, pos_x, pos_y, fenetre):
+    def __init__(self, pos_x, pos_y, fenetre, grille):
         super().__init__(pos_x, pos_y, fenetre, False, False)
         self.image = mur
+        self.grille = grille
         super().placer()
 
 
 class NonBloquant(Objet):
-    def __init__(self, pos_x, pos_y, fenetre):
+    def __init__(self, pos_x, pos_y, fenetre, grille):
         super().__init__(pos_x, pos_y, fenetre, False, True)
         self.image = tapis
+        self.grille = grille
         super().placer()
 
 class Lit(Interactable):
-    def __init__(self, pos_x, pos_y, fenetre, proprietaire:object, name:str="Lit", allow_others:bool=False):
-        super().__init__(pos_x, pos_y, fenetre, name)
+    def __init__(self, pos_x, pos_y, fenetre, proprietaire:object, grille, name:str="Lit", allow_others:bool=False):
+        super().__init__(pos_x, pos_y, fenetre, name, grille)
         self.proprietaire = proprietaire
         self.allow_others = allow_others
         super().placer()
