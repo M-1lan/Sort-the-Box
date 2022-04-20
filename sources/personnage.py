@@ -56,6 +56,8 @@ class Personnage(pygame.sprite.Sprite):
                     self.real_x, self.real_y
                 ))
                 self.real_x, self.real_y = desired_real_x, desired_real_y
+
+    
     def deplacer(self, direction):
         if direction in directions:
             # Si la direction demandée est une direction valide
