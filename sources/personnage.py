@@ -96,8 +96,13 @@ class Personnage(pygame.sprite.Sprite):
     def interagir_avec_coordonnees(self, pos_x, pos_y):
         dist_x = abs(pos_x - self.pos_x)
         dist_y = abs(pos_y - self.pos_y)
-        if self.grille.plateau[pos_y][pos_x].get_upper_element().allow_interact and ((dist_x == 1 and dist_y == 0) or (dist_x == 0 and dist_y == 1)):
-            self.grille.plateau[pos_y][pos_x].get_upper_element().interaction(self)
+        print(pos_x <= self.grille.max_x and pos_y <= self.grille.max_y and pos_x >= 0 and pos_y >= 0)
+
+        if pos_x <= self.grille.max_x and pos_y <= self.grille.max_y \
+            and pos_x >= 0 and pos_y >= 0 \
+            and self.grille.plateau[pos_y][pos_x].get_upper_element().allow_interact \
+            and ((dist_x == 1 and dist_y == 0) or (dist_x == 0 and dist_y == 1)) :
+                self.grille.plateau[pos_y][pos_x].get_upper_element().interaction(self)
         else:
-            raise ValueError("Impossible de faire interagir {} avec l'élément de coordonnées ({}, {})".format(self.name, pos_x, pos_y))
+            raise ValueError("Impossible de faire interagir {} avec l'élément de coordonnées ({}, {}) [V1]".format(self.name, pos_x, pos_y))
         self.placer()
