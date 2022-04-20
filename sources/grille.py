@@ -95,4 +95,3 @@ class Grille:
         for y in self.plateau:
             for case in y:
                 case.placer()
-                
