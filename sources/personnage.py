@@ -15,7 +15,7 @@ class Personnage(pygame.sprite.Sprite):
         self.fenetre = fenetre
         self.window_x, self.window_y = self.fenetre.get_size()
 
-        self.image = pygame.image.load("images/martine.jpg")
+        self.image = pygame.transform.scale(pygame.image.load("images/martine.jpg"), (grille.dim_case,)*2)
 
         self.name = name
         self.grille = grille

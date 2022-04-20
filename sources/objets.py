@@ -1,6 +1,6 @@
 import pygame
 
-sol = pygame.image.load("images/sol.jpg") 
+sol = pygame.image.load("images/sol.jpg")
 mur = pygame.image.load("images/mur.jpg")
 element_interactif = pygame.image.load("images/element_interactif.jpg") 
 tapis = pygame.image.load("images/tapis.jpg")
@@ -28,6 +28,7 @@ class ObjetVide(Objet):
     def __init__(self, pos_x, pos_y, fenetre, grille):
         super().__init__(pos_x, pos_y, fenetre, False, True)
         self.image = sol
+        self.image = pygame.transform.scale(sol, (grille.dim_case,)*2)
         self.grille = grille
         super().placer()
 
@@ -37,6 +38,7 @@ class Interactable(Objet):
         super().__init__(pos_x, pos_y, fenetre, True, False)
         self.name = name
         self.image = element_interactif
+        self.image = pygame.transform.scale(element_interactif, (grille.dim_case,)*2)
         self.grille = grille
         super().placer()
 
@@ -48,6 +50,7 @@ class Bloquant(Objet):
     def __init__(self, pos_x, pos_y, fenetre, grille):
         super().__init__(pos_x, pos_y, fenetre, False, False)
         self.image = mur
+        self.image = pygame.transform.scale(mur, (grille.dim_case,)*2)
         self.grille = grille
         super().placer()
 
@@ -55,7 +58,7 @@ class Bloquant(Objet):
 class NonBloquant(Objet):
     def __init__(self, pos_x, pos_y, fenetre, grille):
         super().__init__(pos_x, pos_y, fenetre, False, True)
-        self.image = tapis
+        self.image = pygame.transform.scale(tapis, (grille.dim_case,)*2)
         self.grille = grille
         super().placer()
 

@@ -12,7 +12,7 @@ pygame.font.init()
 fenetre = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("Petit Jardin")
 
-plateau = Grille(10, 10, fenetre, 16)
+plateau = Grille(10, 10, fenetre, 40)
 martin = Personnage(0, 0, "Martin", plateau, fenetre)
 
 plateau.change_case(0, 1, Interactable(0, 1, fenetre, "Meuble", plateau))
