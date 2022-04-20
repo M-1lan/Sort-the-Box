@@ -13,6 +13,7 @@ class Personnage(pygame.sprite.Sprite):
         self.speed = 20
 
         self.fenetre = fenetre
+        self.window_x, self.window_y = self.fenetre.get_size()
 
         self.image = pygame.image.load("images/martine.jpg")
 
@@ -22,7 +23,10 @@ class Personnage(pygame.sprite.Sprite):
 
 
     def placer(self):
-        self.fenetre.blit(self.image, (self.pos_x * 16, self.pos_y*16), (0, 0, 16, 16))
+        self.fenetre.blit(self.image, ( \
+            self.pos_x * self.grille.dim_case + (self.window_x / 2 - self.grille.dim_case * self.grille.dim_x / 2 ), \
+            self.pos_y * self.grille.dim_case + (self.window_y / 2 - self.grille.dim_case * self.grille.dim_y / 2)), (0, 0, 16, 16)
+        )
 
 
     def deplacer_pixels(self, direction):

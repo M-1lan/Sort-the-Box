@@ -12,14 +12,13 @@ pygame.font.init()
 fenetre = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("Petit Jardin")
 
-
-plateau = Grille(10, 10, fenetre)
+plateau = Grille(10, 10, fenetre, 16)
 martin = Personnage(0, 0, "Martin", plateau, fenetre)
 
-plateau.change_case(0, 1, Interactable(0, 1, fenetre, "Meuble"))
-plateau.change_case(1, 2, Bloquant(1, 2, fenetre))
-plateau.change_case(1, 1, NonBloquant(1, 1, fenetre))
-plateau.change_case(7, 8, Lit(7, 8, fenetre, martin))
+plateau.change_case(0, 1, Interactable(0, 1, fenetre, "Meuble", plateau))
+plateau.change_case(1, 2, Bloquant(1, 2, fenetre, plateau))
+plateau.change_case(1, 1, NonBloquant(1, 1, fenetre, plateau))
+plateau.change_case(7, 8, Lit(7, 8, fenetre, martin, plateau))
 pygame.display.update()
 
 
@@ -82,7 +81,6 @@ while execution:
                 
     fenetre.fill((255, 255, 255))
     plateau.tout_placer()
-    myfont = pygame.font.SysFont("Arial", 20)
 
     pygame.display.flip()
     
