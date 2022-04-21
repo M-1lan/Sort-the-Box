@@ -15,17 +15,18 @@ class Personnage(pygame.sprite.Sprite):
         self.fenetre = fenetre
         self.window_x, self.window_y = self.fenetre.get_size()
 
-        self.image = pygame.transform.scale(pygame.image.load("images/martine.jpg"), (grille.dim_case,)*2)
-
         self.name = name
         self.grille = grille
         self.grille.change_case(self.pos_x, self.pos_y, self)
 
+        self.image = pygame.transform.scale(pygame.image.load("images/martine.jpg"), (6 * self.grille.dim_case, self.grille.dim_case))
+        ## TO DO WSH MAN
 
     def placer(self):
         self.fenetre.blit(self.image, ( \
             self.pos_x * self.grille.dim_case + (self.window_x / 2 - self.grille.dim_case * self.grille.dim_x / 2 ), \
-            self.pos_y * self.grille.dim_case + (self.window_y / 2 - self.grille.dim_case * self.grille.dim_y / 2)), (0, 0, 16, 16)
+            self.pos_y * self.grille.dim_case + (self.window_y / 2 - self.grille.dim_case * self.grille.dim_y / 2)), \
+            (0, 0, self.grille.dim_case, self.grille.dim_case)
         )
 
 
