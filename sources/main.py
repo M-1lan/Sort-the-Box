@@ -1,87 +1,95 @@
-import pygame
+def page_jeu():
 
-from objets import Objet, ObjetVide, Interactable, Bloquant, NonBloquant, Lit
-from grille import Grille, Case
-from personnage import Personnage
+    import pygame
 
-pygame.init()
-pygame.font.init()
+    from objets import Objet, ObjetVide, Interactable, Bloquant, NonBloquant, Lit
+    from grille import Grille, Case
+    from personnage import Personnage
 
-## Création de la fenêtre de jeu 
+    pygame.init()
+    pygame.font.init()
 
-fenetre = pygame.display.set_mode((800, 600))
-pygame.display.set_caption("Petit Jardin")
+    ## Création de la fenêtre de jeu 
 
-plateau = Grille(10, 10, fenetre, 40)
-martin = Personnage(0, 0, "Martin", plateau, fenetre)
+    fenetre = pygame.display.set_mode((800, 600))
+    pygame.display.set_caption("Petit Jardin")
 
-plateau.change_case(0, 1, Interactable(0, 1, fenetre, "Meuble", plateau))
-plateau.change_case(1, 2, Bloquant(1, 2, fenetre, plateau))
-plateau.change_case(1, 1, NonBloquant(1, 1, fenetre, plateau))
-plateau.change_case(7, 8, Lit(7, 8, fenetre, martin, plateau))
-pygame.display.update()
+    plateau = Grille(10, 10, fenetre, 40)
+    martin = Personnage(0, 0, "Martin", plateau, fenetre)
 
-
-def liste_initiales():
-    liste = []
-    for line in plateau.plateau:
-        d_line = []
-        for column in line:
-            d_line.append(str(column.get_upper_element())[1])
-
-        liste.append(d_line)
-    
-    return liste
+    plateau.change_case(0, 1, Interactable(0, 1, fenetre, "Meuble", plateau))
+    plateau.change_case(1, 2, Bloquant(1, 2, fenetre, plateau))
+    plateau.change_case(1, 1, NonBloquant(1, 1, fenetre, plateau))
+    plateau.change_case(7, 8, Lit(7, 8, fenetre, martin, plateau))
+    pygame.display.update()
 
 
-print(*liste_initiales(), sep="\n")
+    def liste_initiales():
+        liste = []
+        for line in plateau.plateau:
+            temp_line = []
+            for column in line:
+                temp_case = []
+                for content in column.content:
+                    temp_case.append(str(content)[1])
+                temp_line.append(temp_case)
 
-execution = True
+            liste.append(temp_line)
+        
+        return liste
 
-while execution:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            execution = False
 
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                try:
-                    martin.deplacer("O")
-                    print(*liste_initiales(), sep="\n")
+    print(*liste_initiales(), sep="\n")
 
-                except ValueError:
-                    pass
+    execution = True
 
-            elif event.key == pygame.K_RIGHT:
-                try:
-                    martin.deplacer("E")
-                    print(*liste_initiales(), sep="\n")
-                except ValueError:
-                    pass
+    while execution:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                execution = False
 
-            elif event.key == pygame.K_UP:
-                try:
-                    martin.deplacer("N")
-                    print(*liste_initiales(), sep="\n")
-                except ValueError:
-                    pass
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    try:
+                        martin.deplacer("O")
+                        print(*liste_initiales(), sep="\n")
 
-            elif event.key == pygame.K_DOWN:
-                try:
-                    martin.deplacer("S")
-                    print(*liste_initiales(), sep="\n")
-                except ValueError:
-                    pass
-            
-            elif event.key == pygame.K_i:
-                try:
-                    martin.interagir()
-                except ValueError as err:
-                    print(err)
+                    except ValueError:
+                        pass
+
+                elif event.key == pygame.K_RIGHT:
+                    try:
+                        martin.deplacer("E")
+                        print(*liste_initiales(), sep="\n")
+
+                    except ValueError:
+                        pass
+
+                elif event.key == pygame.K_UP:
+                    try:
+                        martin.deplacer("N")
+                        print(*liste_initiales(), sep="\n")
+
+                    except ValueError:
+                        pass
+
+                elif event.key == pygame.K_DOWN:
+                    try:
+                        martin.deplacer("S")
+                        print(*liste_initiales(), sep="\n")
+                        
+                    except ValueError:
+                        pass
                 
-    fenetre.fill((255, 255, 255))
-    plateau.tout_placer()
+                elif event.key == pygame.K_i:
+                    try:
+                        martin.interagir()
+                    except ValueError as err:
+                        print(err)
+                    
+        # fenetre.fill((255, 255, 255))
+        plateau.tout_placer()
 
-    pygame.display.flip()
-    
-pygame.quit()
+        pygame.display.flip()
+        
+    pygame.quit()

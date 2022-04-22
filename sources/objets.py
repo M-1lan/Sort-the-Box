@@ -43,7 +43,7 @@ class Interactable(Objet):
         super().placer()
 
     def interaction(self, personnage):
-        print("{} interagit avec moi. Je suis {}, en ({}, {})".format(personnage.name, self.name, self.pos_x, self.pos_y))
+        print("{} (positionné en ({}, {}), en direction {}) interagit avec moi. Je suis {}, en ({}, {}).".format(personnage.name, personnage.pos_x, personnage.pos_y, personnage.dir, self.name, self.pos_x, self.pos_y))
 
 
 class Bloquant(Objet):
