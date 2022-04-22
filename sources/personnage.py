@@ -20,7 +20,6 @@ class Personnage(pygame.sprite.Sprite):
         self.grille.change_case(self.pos_x, self.pos_y, self)
 
         self.image = pygame.transform.scale(pygame.image.load("images/martine.jpg"), (6 * self.grille.dim_case, self.grille.dim_case))
-        ## TO DO WSH MAN
 
     def placer(self):
         self.fenetre.blit(self.image, ( \
@@ -68,6 +67,8 @@ class Personnage(pygame.sprite.Sprite):
             # Si la direction demandée est une direction valide
 
             self.dir = direction
+            self.image = pygame.transform.scale(pygame.image.load("images/martine.jpg"), (12 * self.grille.dim_case, self.grille.dim_case))
+            #message pour CARLITA : ici tu écris quelle portion de l'image qui s'affiche
 
             desired_pos_x = self.pos_x + directions[direction][0]
             desired_pos_y = self.pos_y + directions[direction][1]

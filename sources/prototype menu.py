@@ -1,7 +1,5 @@
-
-
-#Menu Petit Jardin
-import pygame, sys
+#Menu Petit Jardin 
+import pygame
 
 pygame.init()
 
@@ -33,7 +31,7 @@ def page_jeu():
             if event.type == pygame.QUIT:
                 run_jeu = False
                 pygame.quit()
-                sys.exit()
+                exit()
 
         fenetre.fill((255, 255, 255))
                    
@@ -46,7 +44,7 @@ def page_chargement():
             if event.type == pygame.QUIT:
                 run_jeu = False
                 pygame.quit()
-                sys.exit()
+                exit()
 
         fenetre.blit(image_fond, (0, 0))
                    
@@ -60,18 +58,18 @@ def page_menu():
             if event.type == pygame.QUIT:
                 run_menu = False
                 pygame.quit()
-                sys.exit()
+                exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
             if width/2 <= mouse[0] <= width/2+210 and height/2 <= mouse[1] <= height/2+40:
                 page_jeu()
         if event.type == pygame.MOUSEBUTTONDOWN:
             if width/2 <= mouse[0] <= width/2+210 and height/2+70 <= mouse[1] <= height/2+110:
                 page_chargement()
-                sys.exit()
+                exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
             if width/2 <= mouse[0] <= width/2+210 and height/2+140 <= mouse[1] <= height/2+180:
                 pygame.quit()
-                sys.exit()
+                exit()
                 
 
         mouse = pygame.mouse.get_pos()
