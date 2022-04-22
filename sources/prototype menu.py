@@ -1,5 +1,5 @@
-#Menu Petit Jardin 
-import pygame
+# Menu Petit Jardin
+import pygame, main, sys
 
 pygame.init()
 
@@ -8,7 +8,7 @@ pygame.display.set_caption("Petit Jardin")
 
 txt_font = pygame.font.Font(None ,30)
 
-image_fond = pygame.image.load("sources/images/prototype menu 3.jpg")
+image_fond = pygame.image.load("images/prototype menu 3.jpg")
 image_fond = pygame.transform.scale(image_fond, (800, 600))
 image_fond.convert()
 
@@ -61,11 +61,10 @@ def page_menu():
                 exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
             if width/2 <= mouse[0] <= width/2+210 and height/2 <= mouse[1] <= height/2+40:
-                page_jeu()
+                main.page_jeu()
         if event.type == pygame.MOUSEBUTTONDOWN:
             if width/2 <= mouse[0] <= width/2+210 and height/2+70 <= mouse[1] <= height/2+110:
                 page_chargement()
-                exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
             if width/2 <= mouse[0] <= width/2+210 and height/2+140 <= mouse[1] <= height/2+180:
                 pygame.quit()
