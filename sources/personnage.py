@@ -26,6 +26,7 @@ class Personnage(pygame.sprite.Sprite):
         ## TO DO WSH MAN
 
     def placer(self):
+        self.window_x, self.window_y = self.fenetre.get_size()
         self.fenetre.blit(self.image, (
             self.pos_x * self.grille.dim_case + (self.window_x / 2 - self.grille.dim_case * self.grille.dim_x / 2 ),
             self.pos_y * self.grille.dim_case + (self.window_y / 2 - self.grille.dim_case * self.grille.dim_y / 2)),
