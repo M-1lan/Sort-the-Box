@@ -24,19 +24,6 @@ texte2 = txt_font.render('Charger', True, color)
 texte3 = txt_font.render('Quitter', True, color)
 
 
-def page_jeu():
-    run_jeu = True
-    while run_jeu :
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run_jeu = False
-                pygame.quit()
-                exit()
-
-        fenetre.fill((255, 255, 255))
-                   
-        pygame.display.flip()
-
 def page_chargement(): 
     run_jeu = True
     while run_jeu :

@@ -71,7 +71,7 @@ class Personnage(pygame.sprite.Sprite):
             # Si la direction demandée est une direction valide
 
             self.dir = direction
-            self.image = pygame.transform.scale(pygame.image.load("images/martine.jpg"), (12 * self.grille.dim_case, self.grille.dim_case))
+            #self.image = pygame.transform.scale(pygame.image.load("images/martine.jpg"),(6 * self.grille.dim_case, self.grille.dim_case)) 
             #message pour CARLITA : ici tu écris quelle portion de l'image qui s'affiche
 
             desired_pos_x = self.pos_x + directions[direction][0]
