@@ -92,7 +92,7 @@ class Personnage(pygame.sprite.Sprite):
                 
                 self.grille.plateau[self.last_y][self.last_x].remove_last_content(self)
                 self.grille.plateau[self.pos_y][self.pos_x].add_content(self)
-
+                
                 self.peut_interargir()
 
             else:
@@ -126,7 +126,9 @@ class Personnage(pygame.sprite.Sprite):
         if self.last_interactable != None:
             self.last_interactable.enlever_transparence()
             self.last_interactable = None 
-        if self.grille.plateau[pos_y][pos_x].get_upper_element().allow_interact:
+        if pos_x <= self.grille.max_x and pos_y <= self.grille.max_y \
+                and pos_x >= 0 and pos_y >= 0 \
+                and self.grille.plateau[pos_y][pos_x].get_upper_element().allow_interact:
             self.grille.plateau[pos_y][pos_x].get_upper_element().ajouter_transparence()  
             self.last_interactable = self.grille.plateau[pos_y][pos_x].get_upper_element() 
 

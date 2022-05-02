@@ -53,7 +53,7 @@ class Interactable(Objet):
         super().placer()
 
     def enlever_transparence(self):
-        self.image = self.backup_image
+        self.image = self.backup_image.copy()
         super().placer()
 
 class Bloquant(Objet):
