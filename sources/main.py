@@ -12,7 +12,7 @@ def page_jeu():
     ## Création de la fenêtre de jeu 
 
     fenetre = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
-    pygame.display.set_caption("Petit Jardin")
+    pygame.display.set_caption("Sort the Box")
 
     plateau = Grille(10, 10, fenetre, 40)
     martin = Personnage(0, 0, "Martin", plateau, fenetre)

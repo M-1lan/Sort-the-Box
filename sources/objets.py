@@ -4,6 +4,7 @@ sol = pygame.image.load("images/sol.jpg")
 mur = pygame.image.load("images/mur.jpg")
 element_interactif = pygame.image.load("images/element_interactif.jpg") 
 tapis = pygame.image.load("images/tapis.jpg")
+transparent = pygame.image.load("images/transparent.png")
 
 class Objet(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y, fenetre, allow_interact:bool, allow_overlay:bool)->object:
@@ -38,21 +39,29 @@ class Interactable(Objet):
     def __init__(self, pos_x, pos_y, fenetre, name, grille):
         super().__init__(pos_x, pos_y, fenetre, True, False)
         self.name = name
-        self.image = element_interactif
-        self.image = pygame.transform.scale(element_interactif, (grille.dim_case,)*2)
+        self.backup_image = pygame.transform.scale(element_interactif, (grille.dim_case,)*2) 
+        self.image = pygame.transform.scale(element_interactif, (grille.dim_case,)*2) 
+        self.transparent = pygame.transform.scale(transparent, (grille.dim_case,)*2) 
         self.grille = grille
         super().placer()
 
     def interaction(self, personnage):
         print("{} (positionné en ({}, {}), en direction {}) interagit avec moi. Je suis {}, en ({}, {}).".format(personnage.name, personnage.pos_x, personnage.pos_y, personnage.dir, self.name, self.pos_x, self.pos_y))
 
+    def ajouter_transparence(self):
+        self.image.blit(self.transparent, (0, 0))
+        super().placer()
+
+    def enlever_transparence(self):
+        self.image = self.backup_image
+        super().placer()
 
 class Bloquant(Objet):
     def __init__(self, pos_x, pos_y, fenetre, grille):
         super().__init__(pos_x, pos_y, fenetre, False, False)
         self.image = mur
         self.image = pygame.transform.scale(mur, (grille.dim_case,)*2)
-        self.grille = grille
+        self.grille = grille 
         super().placer()
 
 

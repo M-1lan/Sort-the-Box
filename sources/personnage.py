@@ -25,6 +25,8 @@ class Personnage(pygame.sprite.Sprite):
             )
         ## TO DO WSH MAN
 
+        self.last_interactable = None
+
     def placer(self):
         self.window_x, self.window_y = self.fenetre.get_size()
         self.fenetre.blit(self.image, (
@@ -75,8 +77,10 @@ class Personnage(pygame.sprite.Sprite):
             #self.image = pygame.transform.scale(pygame.image.load("images/martine.jpg"),(6 * self.grille.dim_case, self.grille.dim_case)) 
             #message pour CARLITA : ici tu écris quelle portion de l'image qui s'affiche
 
+            self.peut_interargir()
+
             desired_pos_x = self.pos_x + directions[direction][0]
-            desired_pos_y = self.pos_y + directions[direction][1]
+            desired_pos_y = self.pos_y + directions[direction][1] 
             
             if (desired_pos_x >= 0 and \
                     desired_pos_x <= self.grille.max_x and \
@@ -89,8 +93,11 @@ class Personnage(pygame.sprite.Sprite):
                 self.grille.plateau[self.last_y][self.last_x].remove_last_content(self)
                 self.grille.plateau[self.pos_y][self.pos_x].add_content(self)
 
+                self.peut_interargir()
+
             else:
                 raise ValueError("Impossible de déplacer {} vers {}.".format(self.name, direction))
+
         self.placer()
     
 
@@ -112,3 +119,16 @@ class Personnage(pygame.sprite.Sprite):
         else:
             raise ValueError("Impossible de faire interagir {} (positionné en ({}, {}), en direction {}) avec l'élément de coordonnées ({}, {}).".format(self.name, self.pos_x, self.pos_y, self.dir, pos_x, pos_y))
         self.placer()
+
+    def peut_interargir(self):
+        pos_x = self.pos_x + directions[self.dir][0]
+        pos_y = self.pos_y + directions[self.dir][1]
+        if self.last_interactable != None:
+            self.last_interactable.enlever_transparence()
+            self.last_interactable = None 
+        if self.grille.plateau[pos_y][pos_x].get_upper_element().allow_interact:
+            self.grille.plateau[pos_y][pos_x].get_upper_element().ajouter_transparence()  
+            self.last_interactable = self.grille.plateau[pos_y][pos_x].get_upper_element() 
+
+        
+    
