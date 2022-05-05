@@ -1,7 +1,9 @@
 import pygame
 
-sol = pygame.image.load("images/sol.jpg")
+sol = pygame.image.load("images/sol.png")
 mur = pygame.image.load("images/mur.jpg")
+carton = pygame.image.load("images/carton.png") 
+bac = pygame.image.load("images/bac_vert.png") 
 element_interactif = pygame.image.load("images/element_interactif.jpg") 
 tapis = pygame.image.load("images/tapis.jpg")
 transparent = pygame.image.load("images/transparent.png")
@@ -87,3 +89,12 @@ class Lit(Interactable):
             dormeur.grille.plateau[dormeur.pos_y][dormeur.pos_x].remove_last_content(dormeur)
             dormeur.grille.plateau[self.pos_y][self.pos_x].add_content(dormeur)
             dormeur.pos_x, dormeur.pos_y = self.pos_x, self.pos_y
+
+class Bac(Bloquant):
+    def __init__(self, pos_x, pos_y, fenetre, grille, color, name:str="Bac"):
+        super().__init__(pos_x, pos_y, fenetre, grille)
+        self.image = pygame.transform.scale(bac, (grille.dim_case,)*2)
+        super().placer()
+
+    def accueillir_carton(self, carton):
+        pass

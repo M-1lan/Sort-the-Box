@@ -26,7 +26,6 @@ class Personnage(pygame.sprite.Sprite):
                 pygame.image.load("images/martine_t.png"),
                 (4 * self.grille.dim_case, self.grille.dim_case)
             )
-        ## TO DO WSH MAN
 
         self.last_interactable = None
 
