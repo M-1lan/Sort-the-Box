@@ -1,11 +1,9 @@
 def page_jeu():
 
-    import pygame
-
-    from objets import Objet, ObjetVide, Interactable, Bloquant, NonBloquant, Convoyeur, Bac, Spawner
-    from grille import Grille, Case
+    import pygame, page_de_fin
+    from objets import Convoyeur, Bac, Spawner
+    from grille import Grille
     from personnage import Personnage
-    import random
 
     pygame.init()
     pygame.font.init()
@@ -155,7 +153,7 @@ def page_jeu():
             score += bac.score
         
         score = str(score)
-        
+
         compteur = txt_font.render(score, True, color)
         pygame.draw.rect(fenetre, (181, 177, 177), (10, 10, 80, 40))
         fenetre.blit(pygame.transform.scale(carton, (30, 30)), (15, 15))
@@ -168,4 +166,7 @@ def page_jeu():
 
         for tapis in tapis_roulants:
             tapis.animation()
+
+        if int(score) >= 1:
+            page_de_fin.page_de_fin()
     pygame.quit()

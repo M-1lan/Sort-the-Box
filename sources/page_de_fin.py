@@ -1,28 +1,28 @@
 # Fin Sort the Box
-import pygame, main, sys
 
-pygame.init()
+def page_de_fin():
+    import pygame, main, sys
 
-fenetre = pygame.display.set_mode((800, 600))
-pygame.display.set_caption("Sort the Box")
+    pygame.init()
 
-width, height = fenetre.get_size()
+    fenetre = pygame.display.set_mode((800, 600))
+    pygame.display.set_caption("Sort the Box")
 
-carton = pygame.image.load("images/carton.png")
+    width, height = fenetre.get_size()
 
-color = (74, 71, 71)
-color2 = (191, 186, 186)
-color3 = (63, 59, 169)
+    carton = pygame.image.load("images/carton.png")
 
-txt_font = pygame.font.SysFont(None,30)
-texte = txt_font.render('Rejouer', True, color)
+    color = (74, 71, 71)
+    color2 = (191, 186, 186)
+    color3 = (63, 59, 169)
 
-txt_font_2 = pygame.font.SysFont(None,80)
-texte_2 = txt_font_2.render('Vous avez gagné !', True, color3) 
-texte_3 = txt_font_2.render('20', True, color3) 
+    txt_font = pygame.font.SysFont(None,30)
+    texte = txt_font.render('Rejouer', True, color)
 
+    txt_font_2 = pygame.font.SysFont(None,80)
+    texte_2 = txt_font_2.render('Vous avez gagné !', True, color3) 
+    texte_3 = txt_font_2.render('20', True, color3) 
 
-def page_fin():
     run_menu = True
     while run_menu:
         for event in pygame.event.get():
@@ -47,5 +47,3 @@ def page_fin():
         fenetre.blit(texte, (width/3+110,height/2+110))
 
         pygame.display.update()
-
-page_fin()
