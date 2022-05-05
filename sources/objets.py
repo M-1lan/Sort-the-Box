@@ -1,8 +1,9 @@
 import pygame, random
 
-sol = pygame.image.load("images/sol.jpg")
-mur = pygame.image.load("images/mur.jpg")
-element_interactif = pygame.image.load("images/element_interactif.jpg") 
+sol = pygame.image.load("images/sol.png")
+carton = pygame.image.load("images/carton.png") 
+bac = pygame.image.load("images/bac_vert.png") 
+default = pygame.image.load("images/default.jpg") 
 tapis = pygame.image.load("images/tapis.jpg")
 transparent = pygame.image.load("images/transparent.png")
 
@@ -78,7 +79,7 @@ class ObjetVide(Objet):
 
 
 class Interactable(Objet):
-    def __init__(self, pos_x, pos_y, fenetre, name, grille, do_resize=True, image=element_interactif):
+    def __init__(self, pos_x, pos_y, fenetre, name, grille, do_resize=True, image=default):
         super().__init__(pos_x, pos_y, fenetre, True, False)
         self.name = name
         self.backup_image = image.copy()
@@ -105,7 +106,7 @@ class Interactable(Objet):
         super().placer()
 
 class Bloquant(Objet):
-    def __init__(self, pos_x, pos_y, fenetre, grille, do_resize=True, image=mur):
+    def __init__(self, pos_x, pos_y, fenetre, grille, do_resize=True, image=default):
         super().__init__(pos_x, pos_y, fenetre, False, False)
         if do_resize:
             self.image = pygame.transform.scale(image, (grille.dim_case,)*2)
@@ -306,5 +307,5 @@ class Spawner(Interactable):
             if self.carton != None:
                 self.carton.deplacer()
 
-            if random.randint(0, 5) == 0: #and not self.already_spawned_two:
+            if random.randint(0, 7) == 0:
                 self.creer_carton()

@@ -2,7 +2,7 @@ def page_jeu():
 
     import pygame
 
-    from objets import Objet, ObjetVide, Interactable, Bloquant, NonBloquant, Convoyeur, Bac, Carton, Spawner
+    from objets import Objet, ObjetVide, Interactable, Bloquant, NonBloquant, Convoyeur, Bac, Spawner
     from grille import Grille, Case
     from personnage import Personnage
     import random
@@ -17,7 +17,7 @@ def page_jeu():
 
     clock = pygame.time.Clock()
 
-    plateau = Grille(16, 12, fenetre, 48)
+    plateau = Grille(16, 12, fenetre, 32)
     martin = Personnage(0, 0, "Martin", plateau, fenetre)
 
     tapis_roulants = pygame.sprite.Group()
@@ -63,19 +63,27 @@ def page_jeu():
         Spawner(11, 10, fenetre, plateau, "N")
     )
 
+    bacs = pygame.sprite.Group()
+
+    bacs.add(
+        Bac(14, 8, fenetre, plateau, "rose", "O"),
+        Bac(1, 8, fenetre, plateau, "orange", "E"),
+        Bac(2, 1, fenetre, plateau, "bleu", "S"),
+        Bac(7, 6, fenetre, plateau, "blanc", "N"),
+        Bac(11, 2, fenetre, plateau, "vert", "S")
+    )
+
     for tapis in tapis_roulants:
         plateau.change_case(tapis.pos_x, tapis.pos_y, tapis)
-        # if random.randint(0, 5) == 1:
-        #     print("Carton should be at ({}, {})".format(tapis.pos_x, tapis.pos_y))
-        #     plateau.plateau[tapis.pos_y][tapis.pos_x].get_upper_element().creer_carton()
 
-    plateau.change_case(14, 8, Bac(14, 8, fenetre, plateau, "rose", "O"))
-    plateau.change_case(1, 8, Bac(1, 8, fenetre, plateau, "orange", "E"))
-    plateau.change_case(2, 1, Bac(2, 1, fenetre, plateau, "bleu", "S"))
-    plateau.change_case(7, 6, Bac(7, 6, fenetre, plateau, "blanc", "N"))
-    plateau.change_case(11, 2, Bac(11, 2, fenetre, plateau, "vert", "S"))
+    for bac in bacs:
+        plateau.change_case(bac.pos_x, bac.pos_y, bac)
+
     pygame.display.update()
+    txt_font = pygame.font.SysFont(None,40)
+    color = (105, 87, 198)
 
+    carton = pygame.image.load("images/carton.png")
 
     def liste_initiales():
         liste = []
@@ -140,7 +148,18 @@ def page_jeu():
                     except ValueError as err:
                         print(err)
                     
-        # fenetre.fill((255, 255, 255))
+        fenetre.fill((255, 255, 255))
+
+        score = 0
+        for bac in bacs:
+            score += bac.score
+        
+        score = str(score)
+        
+        compteur = txt_font.render(score, True, color)
+        pygame.draw.rect(fenetre, (181, 177, 177), (10, 10, 80, 40))
+        fenetre.blit(pygame.transform.scale(carton, (30, 30)), (15, 15))
+        fenetre.blit(compteur, (55, 20))
         plateau.tout_placer()
 
         pygame.display.flip()

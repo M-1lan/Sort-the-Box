@@ -1,6 +1,7 @@
 import pygame
 
 directions = {"N": (0, -1), "E": (1, 0), "S": (0, 1), "O": (-1, 0)}
+animations = {"N": (48,0), "E": (16, 0), "S": (0, 0), "O": (32, 0)}
 
 class Personnage(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y, name, grille, fenetre):
@@ -12,6 +13,8 @@ class Personnage(pygame.sprite.Sprite):
         self.dir = "N"
         self.speed = 20
 
+        self.image_top_left = animations["S"]
+
         self.fenetre = fenetre
         self.window_x, self.window_y = self.fenetre.get_size()
 
@@ -20,10 +23,9 @@ class Personnage(pygame.sprite.Sprite):
         self.grille.change_case(self.pos_x, self.pos_y, self)
 
         self.image = pygame.transform.scale(
-                pygame.image.load("images/martine.jpg"),
-                (6 * self.grille.dim_case, self.grille.dim_case)
+                pygame.image.load("images/martine_t.png"),
+                (4 * self.grille.dim_case, self.grille.dim_case)
             )
-        ## TO DO WSH MAN
 
         self.last_interactable = None
 
@@ -32,7 +34,7 @@ class Personnage(pygame.sprite.Sprite):
         self.fenetre.blit(self.image, (
             self.pos_x * self.grille.dim_case + (self.window_x / 2 - self.grille.dim_case * self.grille.dim_x / 2 ),
             self.pos_y * self.grille.dim_case + (self.window_y / 2 - self.grille.dim_case * self.grille.dim_y / 2)),
-            (0, 0, self.grille.dim_case, self.grille.dim_case)
+            (self.image_top_left[0] / 16 * self.grille.dim_case, self.image_top_left[1] / 16 * self.grille.dim_case, self.grille.dim_case, self.grille.dim_case)
         )
 
 
@@ -74,10 +76,13 @@ class Personnage(pygame.sprite.Sprite):
             # Si la direction demandée est une direction valide
 
             self.dir = direction
-            #self.image = pygame.transform.scale(pygame.image.load("images/martine.jpg"),(6 * self.grille.dim_case, self.grille.dim_case)) 
-            #message pour CARLITA : ici tu écris quelle portion de l'image qui s'affiche
+
+            self.image_top_left = animations[self.dir] 
 
             self.peut_interargir()
+            self.placer()
+
+            self.animation_bouger()
 
             desired_pos_x = self.pos_x + directions[direction][0]
             desired_pos_y = self.pos_y + directions[direction][1] 
@@ -94,11 +99,12 @@ class Personnage(pygame.sprite.Sprite):
                 self.grille.plateau[self.pos_y][self.pos_x].add_content(self)
                 
                 self.peut_interargir()
+                self.placer()
 
             else:
                 raise ValueError("Impossible de déplacer {} vers {}.".format(self.name, direction))
 
-        self.placer()
+        #self.placer()
     
 
     def interagir(self):
@@ -135,5 +141,5 @@ class Personnage(pygame.sprite.Sprite):
             self.grille.plateau[pos_y][pos_x].get_upper_element().ajouter_transparence()  
             self.last_interactable = self.grille.plateau[pos_y][pos_x].get_upper_element() 
 
-        
-    
+    def animation_bouger(self):
+        pass
