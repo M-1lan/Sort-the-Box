@@ -1,4 +1,4 @@
-# Menu Sort the Box
+# Fin Sort the Box
 import pygame, main, sys
 
 pygame.init()
@@ -6,23 +6,23 @@ pygame.init()
 fenetre = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("Sort the Box")
 
-txt_font = pygame.font.Font(None ,30)
-
-image_fond = pygame.image.load("images/bg menu.png")
-image_fond = pygame.transform.scale(image_fond, (800, 600))
-image_fond.convert()
-
 width, height = fenetre.get_size()
+
+carton = pygame.image.load("images/carton.png")
 
 color = (74, 71, 71)
 color2 = (191, 186, 186)
+color3 = (63, 59, 169)
 
 txt_font = pygame.font.SysFont(None,30)
-texte = txt_font.render('Jouer', True , color)
-texte3 = txt_font.render('Quitter', True, color)
+texte = txt_font.render('Rejouer', True, color)
+
+txt_font_2 = pygame.font.SysFont(None,80)
+texte_2 = txt_font_2.render('Vous avez gagné !', True, color3) 
+texte_3 = txt_font_2.render('20', True, color3) 
 
 
-def page_menu():
+def page_fin():
     run_menu = True
     while run_menu:
         for event in pygame.event.get():
@@ -31,24 +31,21 @@ def page_menu():
                 pygame.quit()
                 exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if width/3+35 <= mouse[0] <= width/3+245 and height/2+10 <= mouse[1] <= height/2+50:
-                main.page_jeu()
-        if event.type == pygame.MOUSEBUTTONDOWN:
             if width/3+35 <= mouse[0] <= width/2+210 and height/2+100 <= mouse[1] <= height/2+140:
-                pygame.quit()
+                main.page_jeu()
                 exit()
                 
         mouse = pygame.mouse.get_pos()
 
-        fenetre.blit(image_fond, (0, 0))
+        fenetre.fill((255, 255, 255))
 
-        pygame.draw.rect(fenetre,color2,[width/3+35,height/2+10,210,40])
-        fenetre.blit(texte, (width/3+113,height/2+20))
+        fenetre.blit(texte_2, (170,150))
+        fenetre.blit(pygame.transform.scale(carton, (100, 100)), (320, 240))
+        fenetre.blit(texte_3, (440,270))
 
         pygame.draw.rect(fenetre,color2,[width/3+35,height/2+100,210,40])
-        fenetre.blit(texte3, (width/3+110,height/2+110))
+        fenetre.blit(texte, (width/3+110,height/2+110))
 
         pygame.display.update()
 
-page_menu()
-
+page_fin()

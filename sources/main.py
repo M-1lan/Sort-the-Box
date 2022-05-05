@@ -15,7 +15,7 @@ def page_jeu():
     pygame.display.set_caption("Sort the Box")
 
     txt_font = pygame.font.SysFont(None,40)
-    color = (105, 87, 198)
+    color = (63, 59, 169)
 
     carton = pygame.image.load("images/carton.png")
 
