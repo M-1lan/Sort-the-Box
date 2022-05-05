@@ -123,12 +123,15 @@ class Personnage(pygame.sprite.Sprite):
     def peut_interargir(self):
         pos_x = self.pos_x + directions[self.dir][0]
         pos_y = self.pos_y + directions[self.dir][1]
+        print(self.last_interactable)
         if self.last_interactable != None:
+            print("Not none")
             self.last_interactable.enlever_transparence()
             self.last_interactable = None 
         if pos_x <= self.grille.max_x and pos_y <= self.grille.max_y \
                 and pos_x >= 0 and pos_y >= 0 \
                 and self.grille.plateau[pos_y][pos_x].get_upper_element().allow_interact:
+            print("En face OK")
             self.grille.plateau[pos_y][pos_x].get_upper_element().ajouter_transparence()  
             self.last_interactable = self.grille.plateau[pos_y][pos_x].get_upper_element() 
 

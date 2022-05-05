@@ -17,8 +17,6 @@ width, height = fenetre.get_size()
 color = (74, 71, 71)
 color2 = (191, 186, 186)
 
-
-
 txt_font = pygame.font.SysFont(None,30)
 texte = txt_font.render('Jouer', True , color)
 texte3 = txt_font.render('Quitter', True, color)

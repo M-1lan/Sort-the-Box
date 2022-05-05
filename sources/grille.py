@@ -60,6 +60,16 @@ class Case:
     def get_upper_element(self)->object:
         return self.content[-1]
 
+    def get_last_element_by_classname(self, classname)->object:
+        print("Content:", self.content)
+        for element in self.content[::-1]:
+            print("EL:", element)
+            if isinstance(element, classname):
+                print("Isinstance !")
+                return element
+            else:
+                print("NotInstance")
+
     def placer(self):
         for content in self.content:
             content.placer()
