@@ -307,5 +307,5 @@ class Spawner(Interactable):
             if self.carton != None:
                 self.carton.deplacer()
 
-            if random.randint(0, 7) == 0:
+            if random.randint(0, 20) == 0:
                 self.creer_carton()

@@ -166,7 +166,7 @@ def page_jeu():
 
         for tapis in tapis_roulants:
             tapis.animation()
-
-        if int(score) >= 1:
+        print(score, int(score), int(score) >= 20)
+        if int(score) >= 20:
             page_de_fin.page_de_fin()
     pygame.quit()
