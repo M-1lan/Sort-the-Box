@@ -276,6 +276,10 @@ class Carton(Interactable):
             # self.to_dir = self.convoyeur.to_dir
         super().placer()
 
+    def interaction(self, personnage):
+        super().interaction(personnage)
+        self.convoyeur.interaction(personnage)
+        self.to_dir = self.convoyeur.to_dir
 
 class Spawner(Interactable):
     def __init__(self, pos_x, pos_y, fenetre, grille, direction):
