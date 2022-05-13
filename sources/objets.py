@@ -155,7 +155,7 @@ class Convoyeur(Interactable):
 
         if self.status_transparence:
             self.ajouter_transparence()
-        
+
         if self.animation_step == 0 and self.carton != None and self.do_check_carton:
             self.carton.deplacer()
         elif not self.do_check_carton:
@@ -198,15 +198,19 @@ class Convoyeur(Interactable):
         self.carton.to_dir = self.to_dir
         self.grille.change_case(self.pos_x, self.pos_y, self.carton)
         self.do_check_carton = False
+    
+    def ajouter_transparence(self):
+        if len(self.allowed_dirs)>1 :
+            super().ajouter_transparence()
 
-class Bac(Interactable):
+class Bac(Bloquant):
     def __init__(self, pos_x, pos_y, fenetre, grille, couleur, direction):
         self.couleur = couleur
         self.from_dir = direction
         self.image = pygame.image.load("images/convoyeur/bacs/{}.png".format(couleur))
         self.image = self.image.subsurface(coordonnees_bacs[self.from_dir], (16, 16))
         self.score = 0
-        super().__init__(pos_x, pos_y, fenetre, "BacRose", grille, True, self.image)
+        super().__init__(pos_x, pos_y, fenetre, grille, True, self.image)
 
     def accueillir_carton(self, carton):
         self.carton = carton
@@ -281,7 +285,7 @@ class Carton(Interactable):
         self.convoyeur.interaction(personnage)
         self.to_dir = self.convoyeur.to_dir
 
-class Spawner(Interactable):
+class Spawner(Bloquant):
     def __init__(self, pos_x, pos_y, fenetre, grille, direction):
         self.carton = None
         self.to_dir = direction
@@ -291,7 +295,7 @@ class Spawner(Interactable):
         self.image = pygame.image.load("images/convoyeur/depart.png")
         self.image = self.image.subsurface(coordonnees_bacs[self.to_dir], (16, 16))
         self.couleurs = ("rose", "blanc", "vert", "bleu", "orange")
-        super().__init__(pos_x, pos_y, fenetre, "Spawner", grille, True, self.image)
+        super().__init__(pos_x, pos_y, fenetre, grille, True, self.image)
 
 
     def creer_carton(self):
