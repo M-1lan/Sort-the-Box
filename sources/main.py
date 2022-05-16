@@ -102,50 +102,44 @@ def page_jeu():
 
     execution = True
     compteur = 0
+    touches_appuyees = dict()
+    touches_to_dir = {pygame.K_LEFT: "O", pygame.K_RIGHT: "E", pygame.K_UP: "N", pygame.K_DOWN: "S"}
+
     while execution:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 execution = False
 
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    try:
-                        martin.deplacer("O")
-                        # print(*liste_initiales(), sep="\n")
-
-                    except ValueError:
-                        pass
-
-                elif event.key == pygame.K_RIGHT:
-                    try:
-                        martin.deplacer("E")
-                        # print(*liste_initiales(), sep="\n")
-
-                    except ValueError:
-                        pass
-
-                elif event.key == pygame.K_UP:
-                    try:
-                        martin.deplacer("N")
-                        # print(*liste_initiales(), sep="\n")
-
-                    except ValueError:
-                        pass
-
-                elif event.key == pygame.K_DOWN:
-                    try:
-                        martin.deplacer("S")
-                        # print(*liste_initiales(), sep="\n")
-                        
-                    except ValueError:
-                        pass
+                if (event.key == pygame.K_LEFT
+                        or event.key == pygame.K_RIGHT
+                        or event.key == pygame.K_UP
+                        or event.key == pygame.K_DOWN):
+                    touches_appuyees[event.key] = 1
                 
                 elif event.key == pygame.K_i:
                     try:
                         martin.interagir()
                     except ValueError as err:
                         print(err)
-                    
+            
+            elif event.type == pygame.KEYUP:
+                if (event.key == pygame.K_LEFT
+                        or event.key == pygame.K_RIGHT
+                        or event.key == pygame.K_UP
+                        or event.key == pygame.K_DOWN):
+                    touches_appuyees[event.key] = 0
+
+        for touche, status in touches_appuyees.items():
+            if status == 1:
+                touches_appuyees[touche] = 2
+                try:
+                    martin.deplacer(touches_to_dir[touche])
+                except ValueError:
+                    pass
+            elif status == 2:
+                touches_appuyees[touche] = 1
+
         fenetre.fill((255, 255, 255))
 
         score = 0
