@@ -1,7 +1,8 @@
 import pygame
 
 directions = {"N": (0, -1), "E": (1, 0), "S": (0, 1), "O": (-1, 0)}
-animations = {"N": (48,0), "E": (16, 0), "S": (0, 0), "O": (32, 0)}
+
+animations = {"N": (48, 0), "E": (16, 0), "S": (0, 0), "O": (32, 0)}
 
 class Personnage(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y, name, grille, fenetre):
@@ -132,9 +133,10 @@ class Personnage(pygame.sprite.Sprite):
             print("Not none")
             self.last_interactable.enlever_transparence()
             self.last_interactable = None
+        
         if pos_x <= self.grille.max_x and pos_y <= self.grille.max_y \
                 and pos_x >= 0 and pos_y >= 0 \
                 and self.grille.plateau[pos_y][pos_x].get_upper_element().allow_interact:
             print("En face OK")
-            self.grille.plateau[pos_y][pos_x].get_upper_element().ajouter_transparence()
+            self.grille.plateau[pos_y][pos_x].get_upper_element().ajouter_transparence()  
             self.last_interactable = self.grille.plateau[pos_y][pos_x].get_upper_element() 
