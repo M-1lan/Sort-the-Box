@@ -77,12 +77,10 @@ class Personnage(pygame.sprite.Sprite):
 
             self.dir = direction
 
-            self.image_top_left = animations[self.dir] 
+            self.image_top_left = animations[self.dir]
 
             self.peut_interargir()
             self.placer()
-
-            self.animation_bouger()
 
             desired_pos_x = self.pos_x + directions[direction][0]
             desired_pos_y = self.pos_y + directions[direction][1] 
@@ -133,13 +131,10 @@ class Personnage(pygame.sprite.Sprite):
         if self.last_interactable != None:
             print("Not none")
             self.last_interactable.enlever_transparence()
-            self.last_interactable = None 
+            self.last_interactable = None
         if pos_x <= self.grille.max_x and pos_y <= self.grille.max_y \
                 and pos_x >= 0 and pos_y >= 0 \
                 and self.grille.plateau[pos_y][pos_x].get_upper_element().allow_interact:
             print("En face OK")
-            self.grille.plateau[pos_y][pos_x].get_upper_element().ajouter_transparence()  
+            self.grille.plateau[pos_y][pos_x].get_upper_element().ajouter_transparence()
             self.last_interactable = self.grille.plateau[pos_y][pos_x].get_upper_element() 
-
-    def animation_bouger(self):
-        pass

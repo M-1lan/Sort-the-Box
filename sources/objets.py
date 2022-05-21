@@ -60,6 +60,7 @@ class Objet(pygame.sprite.Sprite):
         
 
     def placer(self):
+        if isinstance(self, Carton) : print("placage de carton")
         self.window_x, self.window_y = self.fenetre.get_size()
         self.fenetre.blit(self.image, ( \
             self.pos_x * self.grille.dim_case + (self.window_x / 2 - self.grille.dim_case * self.grille.dim_x / 2 ), \
@@ -262,6 +263,7 @@ class Carton(Interactable):
         super().placer()
 
     def deplacer(self):
+        print("déplacer  carton")
         desired_pos_x = self.pos_x + directions[self.to_dir][0]
         desired_pos_y = self.pos_y + directions[self.to_dir][1]
         desired_case = self.grille.plateau[desired_pos_y][desired_pos_x]

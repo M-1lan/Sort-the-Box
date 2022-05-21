@@ -26,11 +26,11 @@ texte3 = txt_font.render('Quitter', True, color)
 def page_menu():
     fenetre.blit(image_fond, (0, 0))
 
-    pygame.draw.rect(fenetre,color2,[width/3+35,height/2+10,210,40])
-    fenetre.blit(texte, (width/3+113,height/2+20))
+    bouton_jouer = pygame.draw.rect(fenetre,color2,[301,310,210,40]) #width, heigth, longueur, largeur
+    fenetre.blit(texte, (379,320))
 
-    pygame.draw.rect(fenetre,color2,[width/3+35,height/2+100,210,40])
-    fenetre.blit(texte3, (width/3+110,height/2+110))
+    bouton_quitter = pygame.draw.rect(fenetre,color2,[301,400,210,40])
+    fenetre.blit(texte3, (376,410))
 
     pygame.display.update()
 
@@ -40,16 +40,16 @@ def page_menu():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run_menu = False
-                pygame.quit()
-               #exit()
+                pygame.quit() #ferme la fenêtre
+                exit() #désactive la librairie Pygame
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse = pygame.mouse.get_pos()
-            if width/3+35 <= mouse[0] <= width/3+245 and height/2+10 <= mouse[1] <= height/2+50:
-                main.page_jeu()
-            elif width/3+35 <= mouse[0] <= width/2+210 and height/2+100 <= mouse[1] <= height/2+140:
-                pygame.quit()
-                exit()
-
+            elif event.type == pygame.MOUSEBUTTONUP:
+                print("clic souris")
+                if bouton_jouer.collidepoint(pygame.mouse.get_pos()):
+                    print("clic jouer")
+                    main.page_jeu()
+                if bouton_quitter.collidepoint(pygame.mouse.get_pos()):
+                    print("clic quitter")
+                    pygame.quit() 
+                    exit()  
 page_menu()
-

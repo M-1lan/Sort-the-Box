@@ -1,9 +1,11 @@
 def page_jeu():
 
-    import pygame, page_de_fin
+    import pygame, page_de_fin, pause
     from objets import Convoyeur, Bac, Spawner
     from grille import Grille
     from personnage import Personnage
+
+    print("appel page_jeu")
 
     pygame.init()
     pygame.font.init()
@@ -12,6 +14,7 @@ def page_jeu():
 
     fenetre = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
     pygame.display.set_caption("Sort the Box")
+    fenetre.fill((255, 255, 255))
 
     clock = pygame.time.Clock()
 
@@ -80,6 +83,10 @@ def page_jeu():
     pygame.display.update()
     txt_font = pygame.font.SysFont(None,40)
     color = (63, 59, 169)
+    color2 = (181, 177, 177)
+    color3 = (255, 0, 0)
+
+    width, heigth = fenetre.get_size()
 
     carton = pygame.image.load("images/carton.png")
 
@@ -106,6 +113,9 @@ def page_jeu():
     touches_to_dir = {pygame.K_LEFT: "O", pygame.K_RIGHT: "E", pygame.K_UP: "N", pygame.K_DOWN: "S"}
 
     while execution:
+
+        bouton_pause = pygame.draw.rect(fenetre, color3, [width/2-150/2, heigth-40, 150, 40])
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 execution = False
@@ -130,6 +140,10 @@ def page_jeu():
                         or event.key == pygame.K_DOWN):
                     touches_appuyees[event.key] = 0
 
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if bouton_pause.collidepoint(pygame.mouse.get_pos()):
+                    pause.bouton_pause(fenetre)
+
         for touche, status in touches_appuyees.items():
             if status == 1:
                 touches_appuyees[touche] = 2
@@ -140,8 +154,6 @@ def page_jeu():
             elif status == 2:
                 touches_appuyees[touche] = 1
 
-        fenetre.fill((255, 255, 255))
-
         score = 0
         for bac in bacs:
             score += bac.score
@@ -149,11 +161,11 @@ def page_jeu():
         score = str(score)
 
         compteur = txt_font.render(score, True, color)
-        pygame.draw.rect(fenetre, (181, 177, 177), (10, 10, 80, 40))
+        pygame.draw.rect(fenetre, color2, (10, 10, 80, 40))
         fenetre.blit(pygame.transform.scale(carton, (30, 30)), (15, 15))
         fenetre.blit(compteur, (55, 20))
         plateau.tout_placer()
-
+        
         pygame.display.flip()
 
         clock.tick(15)
