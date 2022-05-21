@@ -44,12 +44,9 @@ def page_menu():
                 exit() #désactive la librairie Pygame
 
             elif event.type == pygame.MOUSEBUTTONUP:
-                print("clic souris")
                 if bouton_jouer.collidepoint(pygame.mouse.get_pos()):
-                    print("clic jouer")
                     main.page_jeu()
                 if bouton_quitter.collidepoint(pygame.mouse.get_pos()):
-                    print("clic quitter")
                     pygame.quit() 
                     exit()  
 page_menu()
