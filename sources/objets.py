@@ -48,6 +48,26 @@ coordonnees_bacs = {
     "O": (48, 0)
 }
 
+coordonnees_gps = {
+    "N": {
+        "E": (16, 0, 90),
+        "S": (0, 0, 90),
+        "O": (16, 0, 0)
+    }, "E": {
+        "S": (16, 0, 180),
+        "O": (0, 0, 0),
+        "N": (16, 0, 90)
+    }, "S": {
+        "O": (16, 0, 270),
+        "N": (0, 0, 90),
+        "E": (16, 0, 180)
+    }, "O": {
+        "N": (16, 0, 0),
+        "E": (0, 0, 0),
+        "S": (16, 0, 270)
+    }
+}
+
 class Objet(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y, fenetre, allow_interact:bool, allow_overlay:bool)->object:
         super().__init__()
@@ -132,6 +152,10 @@ class Convoyeur(Interactable):
         self.fonds = pygame.image.load("images/convoyeur/tapis.png")
         self.fleches = pygame.image.load("images/convoyeur/fleches/{}{}.png".format(self.from_dir, self.to_dir))
         
+        self.backup_gps = pygame.image.load("images/convoyeur/gps.png")
+        self.gps = self.backup_gps.subsurface(*coordonnees_gps[self.from_dir][self.to_dir][:2], 16, 16)
+        self.gps = pygame.transform.rotate(self.gps, -coordonnees_gps[self.from_dir][self.to_dir][2])
+
         self.bordures = pygame.image.load("images/convoyeur/bordures/all.png")
 
         self.bordure_top_left = coordonnees_bordures[from_dir][self.compressed_dirs]
@@ -167,11 +191,13 @@ class Convoyeur(Interactable):
 
     def creer_images(self):
         self.images = self.fonds.copy()
-        self.images.blit(self.fleches, (0, 0))
 
         for i in range(0, self.images.get_width(), 16):
+            self.images.blit(self.gps, (i, 0, 16, 16))
             self.images.blit(self.bordures, (i, 0, 16, 16),
                 (*self.bordure_top_left, 16, 16))
+
+        self.images.blit(self.fleches, (0, 0))
 
 
     def interaction(self, personnage):
@@ -180,6 +206,8 @@ class Convoyeur(Interactable):
         self.to_dir = self.allowed_dirs[self.to_dir_number]
 
         self.fleches = pygame.image.load("images/convoyeur/fleches/{}{}.png".format(self.from_dir, self.to_dir))
+        self.gps = self.backup_gps.subsurface(*coordonnees_gps[self.from_dir][self.to_dir][:2], 16, 16)
+        self.gps = pygame.transform.rotate(self.gps, -coordonnees_gps[self.from_dir][self.to_dir][2])
 
         self.creer_images()
 
