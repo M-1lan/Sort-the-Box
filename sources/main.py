@@ -5,7 +5,6 @@ def page_jeu():
     from grille import Grille
     from personnage import Personnage
 
-    print("appel page_jeu")
 
     pygame.init()
     pygame.font.init()
@@ -103,16 +102,12 @@ def page_jeu():
         
         return liste
 
-
-    print(*liste_initiales(), sep="\n")
-
     execution = True
     compteur = 0
     touches_appuyees = dict()
     touches_to_dir = {pygame.K_LEFT: "O", pygame.K_RIGHT: "E", pygame.K_UP: "N", pygame.K_DOWN: "S"}
 
     while execution:
-
         bouton_pause = pygame.draw.rect(fenetre, color3, [width/2-150/2, heigth-40, 150, 40])
 
         for event in pygame.event.get():
@@ -171,7 +166,7 @@ def page_jeu():
 
         for tapis in tapis_roulants:
             tapis.animation()
-        print(score, int(score), int(score) >= 20)
+          
         if int(score) >= 20:
             page_de_fin.page_de_fin()
     pygame.quit()

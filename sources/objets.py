@@ -60,7 +60,6 @@ class Objet(pygame.sprite.Sprite):
         
 
     def placer(self):
-        if isinstance(self, Carton) : print("placage de carton")
         self.window_x, self.window_y = self.fenetre.get_size()
         self.fenetre.blit(self.image, ( \
             self.pos_x * self.grille.dim_case + (self.window_x / 2 - self.grille.dim_case * self.grille.dim_x / 2 ), \
@@ -163,6 +162,9 @@ class Convoyeur(Interactable):
             self.do_check_carton = True
         super().placer()
 
+        if self.carton != None:
+            self.carton.placer()
+
     def creer_images(self):
         self.images = self.fonds.copy()
         self.images.blit(self.fleches, (0, 0))
@@ -222,7 +224,6 @@ class Bac(Bloquant):
         self.carton.convoyeur = self
         self.grille.change_case(self.pos_x, self.pos_y, self.carton)
         self.supprimer_carton()
-        print(self.score)
 
     def supprimer_carton(self):
         self.grille.plateau[self.pos_y][self.pos_x].remove_last_content(self.carton)
@@ -261,9 +262,8 @@ class Carton(Interactable):
 
             self.convoyeur.creer_carton()
         super().placer()
-
+        
     def deplacer(self):
-        print("déplacer  carton")
         desired_pos_x = self.pos_x + directions[self.to_dir][0]
         desired_pos_y = self.pos_y + directions[self.to_dir][1]
         desired_case = self.grille.plateau[desired_pos_y][desired_pos_x]
