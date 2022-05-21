@@ -15,6 +15,7 @@ def page_jeu():
     fenetre = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
     pygame.display.set_caption("Sort the Box")
     fenetre.fill((255, 255, 255))
+    width, heigth = fenetre.get_size()
 
     clock = pygame.time.Clock()
 
@@ -85,8 +86,6 @@ def page_jeu():
     color = (63, 59, 169)
     color2 = (181, 177, 177)
     color3 = (255, 0, 0)
-
-    width, heigth = fenetre.get_size()
 
     carton = pygame.image.load("images/carton.png")
 
