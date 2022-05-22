@@ -1,5 +1,5 @@
-from objets import ObjetVide
-import pygame
+from typing import Any, List
+from objets import Objet, ObjetVide, Bac, Bloquant, Carton, Convoyeur, Interactable, NonBloquant, Spawner
 
 class Case:
     def __init__(self, pos_x:int, pos_y:int, fenetre, grille, is_filled:bool, content:object=None)->object:
@@ -57,7 +57,7 @@ class Case:
         self.check_and_fill()
 
 
-    def get_upper_element(self)->object:
+    def get_upper_element(self)->Objet|ObjetVide|Interactable|Bloquant|NonBloquant|Convoyeur|Bac|Spawner|Carton:
         return self.content[-1]
 
     def get_last_element_by_classname(self, classname)->object:
@@ -84,7 +84,7 @@ class Grille:
 
         self.dim_case = dim_case
         self.fenetre = fenetre
-        self.plateau = list()
+        self.plateau: List[List[Case]] = list()
 
         for line in range(dim_y):
             self.plateau.append(list())

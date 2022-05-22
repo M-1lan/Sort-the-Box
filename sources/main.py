@@ -23,6 +23,7 @@ def page_jeu():
     cases_plateau_l = 12
     plateau = Grille(cases_plateau_L, cases_plateau_l, fenetre, 32)
     martin = Personnage(0, 0, "Martin", plateau, fenetre)
+    spawner = Spawner(11, 10, fenetre, plateau, "N")
 
     tapis_roulants = pygame.sprite.Group()
 
@@ -64,7 +65,7 @@ def page_jeu():
         Convoyeur(13, 6, fenetre, plateau, "O", "S", ("S")),
         Convoyeur(13, 7, fenetre, plateau, "N", "S", ("S")),
         Convoyeur(13, 8, fenetre, plateau, "N", "E", ("E")),
-        Spawner(11, 10, fenetre, plateau, "N")
+        spawner
     )
 
     bacs = pygame.sprite.Group()
@@ -109,6 +110,7 @@ def page_jeu():
         
     #     return liste
 
+    spawner.demarrer_trajectoire()
     execution = True
     compteur = 0
     touches_appuyees = dict()

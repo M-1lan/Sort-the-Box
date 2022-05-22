@@ -1,3 +1,4 @@
+from typing import Any
 import pygame, random
 
 sol = pygame.image.load("images/sol.png")
@@ -148,6 +149,7 @@ class Convoyeur(Interactable):
         self.allowed_dirs = allowed_dirs
         self.compressed_dirs = "".join(sorted(self.allowed_dirs))
         self.to_dir_number = self.allowed_dirs.index(self.to_dir)
+        self.grille = grille
         
         self.fonds = pygame.image.load("images/convoyeur/tapis.png")
         self.fleches = pygame.image.load("images/convoyeur/fleches/{}{}.png".format(self.from_dir, self.to_dir))
@@ -160,6 +162,9 @@ class Convoyeur(Interactable):
 
         self.bordure_top_left = coordonnees_bordures[from_dir][self.compressed_dirs]
 
+        self.is_on_path = False
+
+
         self.creer_images()
 
         self.animation_step = 0
@@ -170,6 +175,28 @@ class Convoyeur(Interactable):
 
         #fenetre.blit(self.images, (0, 0))
         super().__init__(pos_x, pos_y, fenetre, "Tapis-{}-{}".format(from_dir, default_to_dir), grille, True, self.image)
+
+    def accueillir_trajectoire(self):
+        self.is_on_path = True
+        self.creer_images()
+
+        next_pos_x = self.pos_x + directions[self.to_dir][0]
+        next_pos_y = self.pos_y + directions[self.to_dir][1]
+        next_element = self.grille.plateau[next_pos_y][next_pos_x].get_upper_element()
+
+        if isinstance(next_element, (Convoyeur, Carton)):
+            next_element.accueillir_trajectoire()
+
+    def enlever_trajectoire(self):
+        self.is_on_path = False
+        self.creer_images()
+
+        next_pos_x = self.pos_x + directions[self.to_dir][0]
+        next_pos_y = self.pos_y + directions[self.to_dir][1]
+        next_element = self.grille.plateau[next_pos_y][next_pos_x].get_upper_element()
+
+        if isinstance(next_element, (Convoyeur, Carton)):
+            next_element.enlever_trajectoire()
 
     def animation(self):
         self.animation_step = (self.animation_step + 1) % (self.images.get_width() // 16)
@@ -191,9 +218,12 @@ class Convoyeur(Interactable):
 
     def creer_images(self):
         self.images = self.fonds.copy()
+        self.gps = self.backup_gps.subsurface(*coordonnees_gps[self.from_dir][self.to_dir][:2], 16, 16)
+        self.gps = pygame.transform.rotate(self.gps, -coordonnees_gps[self.from_dir][self.to_dir][2])
 
         for i in range(0, self.images.get_width(), 16):
-            self.images.blit(self.gps, (i, 0, 16, 16))
+            if self.is_on_path:
+                self.images.blit(self.gps, (i, 0, 16, 16))
             self.images.blit(self.bordures, (i, 0, 16, 16),
                 (*self.bordure_top_left, 16, 16))
 
@@ -202,12 +232,18 @@ class Convoyeur(Interactable):
 
     def interaction(self, personnage):
         super().interaction(personnage)
+        next_pos_x = self.pos_x + directions[self.to_dir][0]
+        next_pos_y = self.pos_y + directions[self.to_dir][1]
+        self.grille.plateau[next_pos_y][next_pos_x].get_upper_element().enlever_trajectoire()
+
         self.to_dir_number = (self.to_dir_number + 1) % len(self.allowed_dirs)
         self.to_dir = self.allowed_dirs[self.to_dir_number]
 
+        next_pos_x = self.pos_x + directions[self.to_dir][0]
+        next_pos_y = self.pos_y + directions[self.to_dir][1]
+        self.grille.plateau[next_pos_y][next_pos_x].get_upper_element().accueillir_trajectoire()
+
         self.fleches = pygame.image.load("images/convoyeur/fleches/{}{}.png".format(self.from_dir, self.to_dir))
-        self.gps = self.backup_gps.subsurface(*coordonnees_gps[self.from_dir][self.to_dir][:2], 16, 16)
-        self.gps = pygame.transform.rotate(self.gps, -coordonnees_gps[self.from_dir][self.to_dir][2])
 
         self.creer_images()
 
@@ -259,7 +295,7 @@ class Bac(Bloquant):
         
 
 class Carton(Interactable):
-    def __init__(self, convoyeur, fenetre, grille, couleur):
+    def __init__(self, convoyeur:Convoyeur, fenetre, grille, couleur):
         self.image = pygame.Surface((grille.dim_case, )*2, pygame.SRCALPHA)
         self.image.fill((0, 0, 0, 0))
         self.image = self.image.copy()
@@ -315,6 +351,12 @@ class Carton(Interactable):
         self.convoyeur.interaction(personnage)
         self.to_dir = self.convoyeur.to_dir
 
+    def accueillir_trajectoire(self):
+        self.convoyeur.accueillir_trajectoire()
+
+    def enlever_trajectoire(self):
+        self.convoyeur.enlever_trajectoire()
+
 class Spawner(Bloquant):
     def __init__(self, pos_x, pos_y, fenetre, grille, direction):
         self.carton = None
@@ -325,8 +367,19 @@ class Spawner(Bloquant):
         self.image = pygame.image.load("images/convoyeur/depart.png")
         self.image = self.image.subsurface(coordonnees_bacs[self.to_dir], (16, 16))
         self.couleurs = ("rose", "blanc", "vert", "bleu", "orange")
+
         super().__init__(pos_x, pos_y, fenetre, grille, True, self.image)
 
+    def demarrer_trajectoire(self):
+        next_pos_x = self.pos_x + directions[self.to_dir][0]
+        next_pos_y = self.pos_y + directions[self.to_dir][1]
+        next_element = self.grille.plateau[next_pos_y][next_pos_x].get_upper_element()
+        print("next_element_spawner :", next_element)
+
+        if isinstance(next_element, (Convoyeur, Carton)):
+            print("is convoyeur / Carton")
+            next_element.accueillir_trajectoire()
+            print("callé !")
 
     def creer_carton(self):
         self.carton = Carton(self, self.fenetre, self.grille, self.couleurs[random.randint(0, 4)])
