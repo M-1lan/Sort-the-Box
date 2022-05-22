@@ -168,7 +168,7 @@ class Convoyeur(Interactable):
         self.carton = None
         self.do_check_carton = True
 
-        fenetre.blit(self.images, (0, 0))
+        #fenetre.blit(self.images, (0, 0))
         super().__init__(pos_x, pos_y, fenetre, "Tapis-{}-{}".format(from_dir, default_to_dir), grille, True, self.image)
 
     def animation(self):
@@ -345,5 +345,5 @@ class Spawner(Bloquant):
             if self.carton != None:
                 self.carton.deplacer()
 
-            if random.randint(0, 20) == 0:
+            if random.randint(0, 10) == 0:
                 self.creer_carton()

@@ -1,4 +1,5 @@
 def page_jeu():
+    print("appel jeu")
 
     import pygame, page_de_fin, pause
     from objets import Convoyeur, Bac, Spawner
@@ -9,7 +10,7 @@ def page_jeu():
     pygame.init()
     pygame.font.init()
 
-    ## Création de la fenêtre de jeu 
+    ## Création de la fenêtre de jeu
 
     fenetre = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
     pygame.display.set_caption("Sort the Box")
@@ -18,7 +19,9 @@ def page_jeu():
 
     clock = pygame.time.Clock()
 
-    plateau = Grille(16, 12, fenetre, 32)
+    cases_plateau_L = 16
+    cases_plateau_l = 12
+    plateau = Grille(cases_plateau_L, cases_plateau_l, fenetre, 32)
     martin = Personnage(0, 0, "Martin", plateau, fenetre)
 
     tapis_roulants = pygame.sprite.Group()
@@ -82,25 +85,29 @@ def page_jeu():
 
     pygame.display.update()
     txt_font = pygame.font.SysFont(None,40)
-    color = (63, 59, 169)
-    color2 = (181, 177, 177)
-    color3 = (255, 0, 0)
+    color = (0, 0, 0)
+    color_2 = (181, 181, 181)
 
     carton = pygame.image.load("images/carton.png")
+    btn_pause = pygame.image.load("images/btn_pause.png")
+    btn_quitter = pygame.image.load("images/btn_quitter.png")
 
-    def liste_initiales():
-        liste = []
-        for line in plateau.plateau:
-            temp_line = []
-            for column in line:
-                temp_case = []
-                for content in column.content:
-                    temp_case.append(str(content)[1])
-                temp_line.append(temp_case)
+    btn_pause = pygame.transform.scale(btn_pause, (60, 60))
+    width_btn, heigth_btn = btn_pause.get_size()
 
-            liste.append(temp_line)
+    # def liste_initiales():
+    #     liste = []
+    #     for line in plateau.plateau:
+    #         temp_line = []
+    #         for column in line:
+    #             temp_case = []
+    #             for content in column.content:
+    #                 temp_case.append(str(content)[1])
+    #             temp_line.append(temp_case)
+
+    #         liste.append(temp_line)
         
-        return liste
+    #     return liste
 
     execution = True
     compteur = 0
@@ -108,7 +115,8 @@ def page_jeu():
     touches_to_dir = {pygame.K_LEFT: "O", pygame.K_RIGHT: "E", pygame.K_UP: "N", pygame.K_DOWN: "S"}
 
     while execution:
-        bouton_pause = pygame.draw.rect(fenetre, color3, [width/2-150/2, heigth-40, 150, 40])
+        bouton_pause = fenetre.blit(btn_pause, (width/2-width_btn/2, heigth/2+(32*cases_plateau_l)/2+10))
+        bouton_quitter = fenetre.blit(pygame.transform.scale(btn_quitter, (30, 30)), (100, 15))
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -136,7 +144,11 @@ def page_jeu():
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if bouton_pause.collidepoint(pygame.mouse.get_pos()):
-                    pause.bouton_pause(fenetre)
+                    pause.bouton_pause(fenetre, cases_plateau_l)
+            
+            # elif event.type == pygame.MOUSEBUTTONUP:
+            #     if bouton_quitter.collidepoint(pygame.mouse.get_pos()):
+            #         pause.retour_menu()
 
         for touche, status in touches_appuyees.items():
             if status == 1:
@@ -155,7 +167,7 @@ def page_jeu():
         score = str(score)
 
         compteur = txt_font.render(score, True, color)
-        pygame.draw.rect(fenetre, color2, (10, 10, 80, 40))
+        pygame.draw.rect(fenetre, color_2, (10, 10, 80, 40))
         fenetre.blit(pygame.transform.scale(carton, (30, 30)), (15, 15))
         fenetre.blit(compteur, (55, 20))
         plateau.tout_placer()

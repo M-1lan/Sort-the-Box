@@ -51,8 +51,9 @@ def page_menu():
 
             elif event.type == pygame.MOUSEBUTTONUP:
                 if bouton_jouer.collidepoint(pygame.mouse.get_pos()):
+                    print("clic jouer")
                     main.page_jeu()
                 if bouton_quitter.collidepoint(pygame.mouse.get_pos()):
                     pygame.quit() 
-                    exit()  
+                    exit() 
 page_menu()
