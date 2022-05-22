@@ -148,9 +148,10 @@ def page_jeu():
                 if bouton_pause.collidepoint(pygame.mouse.get_pos()):
                     pause.bouton_pause(fenetre, cases_plateau_l)
             
-            # elif event.type == pygame.MOUSEBUTTONUP:
-            #     if bouton_quitter.collidepoint(pygame.mouse.get_pos()):
-            #         pause.retour_menu()
+            elif event.type == pygame.MOUSEBUTTONUP:
+                if bouton_quitter.collidepoint(pygame.mouse.get_pos()):
+                    pygame.quit() 
+                    exit() 
 
         for touche, status in touches_appuyees.items():
             if status == 1:

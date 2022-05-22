@@ -283,8 +283,10 @@ class Bac(Bloquant):
         self.carton = carton
         if self.carton.couleur == self.couleur:
             self.score += 1
-        else:
+        elif self.score > 0:
             self.score -= 1
+        elif self.score < 0:
+            self.score = 0
         self.carton.convoyeur = self
         self.grille.change_case(self.pos_x, self.pos_y, self.carton)
         self.supprimer_carton()
